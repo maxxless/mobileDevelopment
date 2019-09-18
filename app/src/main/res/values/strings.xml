@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">MobileApp</string>
+    <string name="facebook_app_id">1982757341842858</string>
+    <string name="fb_login_protocol_scheme">fb1982757341842858</string>
+
+    <string name="profile">Profile</string>
+    <string name="sign_out">Sign out</string>
+
+    <string name="account">Do not have an account?</string>
+    <string name="register">REGISTER HERE</string>
+    <string name="forgot_pass">Forgot Password?</string>
+    <string name="login">Login</string>
+    <string name="pass">Password</string>
+    <string name="username">Username</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="email">Email</string>
+    <string name="register_label">Register</string>
+    <string name="login_here">LOGIN HERE</string>
+    <string name="already_have_acc">Already have an account?</string>
+    <string name="confirm_pass">Confirm Password</string>
+    <string name="recovery">Send Recovery Code</string>
+    <string name="remember_pass">Remember password?</string>
+    <string name="phone">Phone Number</string>
 </resources>
