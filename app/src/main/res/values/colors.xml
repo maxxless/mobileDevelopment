@@ -7,4 +7,8 @@
     <color name="diamond">#b8f3ff</color>
     <color name="white">#FFFFFF</color>
     <color name="none">#00ffffff</color>
+    <color name="black">#00000000</color>
+    <color name="stoneBlack">#44000000</color>
+    <color name="grey">#2affffff</color>
+    <color name="milkWhite">#e7e7e7</color>
 </resources>

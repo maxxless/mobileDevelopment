@@ -4,34 +4,107 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.leshchyshyn.mobileapp.R;
 
-public class SignUpFragment extends Fragment {
+public class SignUpFragment extends Fragment implements SignUpContract.ISignUpView {
 
-    private SignUpContract.ISignUpView view;
+    private View view;
+    private SignUpPresenter signUpPresenter;
 
+    private EditText usernameEt;
+    private EditText emailEt;
+    private EditText phoneEt;
+    private EditText passwordEt;
+    private EditText confirmPasswordEt;
+
+    private Button signUpBtn;
+
+    private TextView signInTv;
+
+    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_signup, container, false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_signup, container, false);
 
-        initView(root);
+        initView();
         initPresenter();
-
-        return root;
+        initListeners();
+        return view;
     }
 
-    private void initView(View root) {
-        view = new SignUpView();
-        view.init(root);
+    private void initView() {
+        usernameEt = view.findViewById(R.id.username_et);
+        emailEt = view.findViewById(R.id.email_et);
+        phoneEt = view.findViewById(R.id.phone_et);
+        passwordEt = view.findViewById(R.id.password_et);
+        confirmPasswordEt = view.findViewById(R.id.confirm_password_et);
+
+        signUpBtn = view.findViewById(R.id.signup_btn);
+
+        signInTv = view.findViewById(R.id.signin_txt);
+
+        usernameEt.setError(null);
+        emailEt.setError(null);
+        phoneEt.setError(null);
+        passwordEt.setError(null);
+        confirmPasswordEt.setError(null);
     }
 
     private void initPresenter() {
-        SignUpContract.ISignUpPresenter presenter = new SignUpPresenter(this, view);
-        view.setPresenter(presenter);
+        signUpPresenter = new SignUpPresenter(this, getActivity());
+    }
+
+    private void initListeners() {
+        signUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String username = usernameEt.getText().toString();
+                String email = emailEt.getText().toString();
+                String phone = phoneEt.getText().toString();
+                String password = passwordEt.getText().toString();
+                String confirmPassword = confirmPasswordEt.getText().toString();
+                signUpPresenter.signUp(username, email, phone, password, confirmPassword);
+            }
+        });
+
+        signInTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signUpPresenter.showSignIn();
+            }
+        });
+    }
+
+    @Override
+    public void showUsernameError() {
+        usernameEt.setError("Please enter valid username");
+    }
+
+    @Override
+    public void showEmailError() {
+        emailEt.setError("Please enter valid email");
+    }
+
+    @Override
+    public void showPhoneError() {
+        phoneEt.setError("Please enter valid phone");
+    }
+
+    @Override
+    public void showPasswordError() {
+        passwordEt.setError("Please enter valid password");
+    }
+
+    @Override
+    public void showConfirmPasswordError() {
+        confirmPasswordEt.setError("Passwords should match");
     }
 }
 

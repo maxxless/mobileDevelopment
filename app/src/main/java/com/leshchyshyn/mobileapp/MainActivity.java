@@ -15,21 +15,33 @@ import androidx.core.content.ContextCompat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.leshchyshyn.mobileapp.auth.Auth;
 import com.leshchyshyn.mobileapp.auth.AuthenticationActivity;
+import com.leshchyshyn.mobileapp.utils.SharedPrefsHelper;
 
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 1;
+
+    private TextView nameTextView;
+    private Button signOutBtn;
+
+    private Auth auth = Auth.getInstance();
+
+    private SharedPrefsHelper sharedPrefsHelper = new SharedPrefsHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        init();
+
+        initView();
+        initValues();
+        initListeners();
+
         requestPermission();
     }
 
     private void requestPermission() {
-        int MY_PERMISSIONS_REQUEST_CALL_PHONE = 1;
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CALL_PHONE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -40,14 +52,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void init() {
-        TextView nameTextView = findViewById(R.id.name_tv);
-        Button signOutBtn = findViewById(R.id.sign_out_btn);
+    public void initView() {
+        nameTextView = findViewById(R.id.name_tv);
+        signOutBtn = findViewById(R.id.sign_out_btn);
+    }
 
-        String text = "Welcome: " + (Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail());
+    private void initValues() {
+        String text = "Welcome: " + sharedPrefsHelper.loadUsername(
+                Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail());
 
         nameTextView.setText(text);
+    }
 
+    private void initListeners() {
         signOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void signOut() {
-        Auth.signOut();
+        auth.signOut();
         Intent intent = new Intent(this, AuthenticationActivity.class);
         startActivity(intent);
         finish();

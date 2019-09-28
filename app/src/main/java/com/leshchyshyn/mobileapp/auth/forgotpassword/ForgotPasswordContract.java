@@ -1,24 +1,14 @@
 package com.leshchyshyn.mobileapp.auth.forgotpassword;
 
-import android.view.View;
-
 public interface ForgotPasswordContract {
 
-    interface IForgotPasswordView{
-        void init(View root);
-
-        void hideEmailError();
+    interface IForgotPasswordView {
+        void recoveryCodeIsSent();
 
         void showEmailError();
-
-        String getEmail();
-
-        void setPresenter(IForgotPasswordPresenter presenter);
     }
 
-    interface IForgotPasswordPresenter{
-        void showSignIn();
-
-        void sendRecoverCodeClick();
+    interface IForgotPasswordPresenter {
+        void sendRecoveryCode(String email);
     }
 }

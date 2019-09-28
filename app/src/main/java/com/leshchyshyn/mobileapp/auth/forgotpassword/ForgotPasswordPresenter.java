@@ -1,41 +1,34 @@
 package com.leshchyshyn.mobileapp.auth.forgotpassword;
 
-import android.text.TextUtils;
+import android.app.Activity;
 
 import com.leshchyshyn.mobileapp.auth.AuthenticationActivity;
+import com.leshchyshyn.mobileapp.auth.IAuthenticationView;
 
-import java.util.Objects;
+import static com.leshchyshyn.mobileapp.utils.Utils.isValidEmail;
 
-public class ForgotPasswordPresenter implements ForgotPasswordContract.IForgotPasswordPresenter {
+public class ForgotPasswordPresenter extends AuthenticationActivity
+        implements ForgotPasswordContract.IForgotPasswordPresenter {
 
-    private ForgotPasswordFragment fragment;
     private ForgotPasswordContract.IForgotPasswordView view;
+    private IAuthenticationView authenticationView;
 
-    ForgotPasswordPresenter(ForgotPasswordFragment fragment, ForgotPasswordContract.IForgotPasswordView view){
-        this.fragment = fragment;
+    public ForgotPasswordPresenter(ForgotPasswordContract.IForgotPasswordView view, Activity activity){
         this.view = view;
+        authenticationView = (IAuthenticationView) activity;
     }
 
-    @Override
-    public void sendRecoverCodeClick() {
-        validateInput();
+    public void showSignIn (){
+        authenticationView.showSignIn();
     }
 
-    @Override
-    public void showSignIn() {
-        ((AuthenticationActivity) Objects.requireNonNull(fragment.getActivity())).showSignIn();
-    }
-
-    private void validateInput() {
-        view.hideEmailError();
-
-        String email = view.getEmail();
-
-        if (TextUtils.isEmpty(email)) {
-            view.showEmailError();
-            return;
+    public void sendRecoveryCode(String email) {
+        if(isValidEmail(email)){
+            authenticationView.sendRecoveryCode(email);
+            view.recoveryCodeIsSent();
         }
-
-        ((AuthenticationActivity) Objects.requireNonNull(fragment.getActivity())).sendRecoverCode(view.getEmail());
+        else{
+            view.showEmailError();
+        }
     }
 }

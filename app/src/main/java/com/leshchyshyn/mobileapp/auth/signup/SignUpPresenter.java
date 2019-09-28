@@ -1,84 +1,65 @@
 package com.leshchyshyn.mobileapp.auth.signup;
 
+import android.app.Activity;
 import android.text.TextUtils;
-import android.util.Patterns;
 
 import com.leshchyshyn.mobileapp.auth.AuthenticationActivity;
+import com.leshchyshyn.mobileapp.auth.IAuthenticationView;
 
-import java.util.Objects;
+import static com.leshchyshyn.mobileapp.utils.Utils.isValidEmail;
+import static com.leshchyshyn.mobileapp.utils.Utils.isValidPassword;
+import static com.leshchyshyn.mobileapp.utils.Utils.isValidPhone;
 
-import static com.leshchyshyn.mobileapp.Utils.isValidPassword;
+public class SignUpPresenter extends AuthenticationActivity
+        implements SignUpContract.ISignUpPresenter {
 
-public class SignUpPresenter implements SignUpContract.ISignUpPresenter {
-
-    private SignUpFragment fragment;
     private SignUpContract.ISignUpView view;
+    private IAuthenticationView authenticationView;
 
-    SignUpPresenter(SignUpFragment fragment, SignUpContract.ISignUpView view) {
-        this.fragment = fragment;
+    public SignUpPresenter(SignUpContract.ISignUpView view, Activity activity) {
         this.view = view;
+        authenticationView = (IAuthenticationView) activity;
     }
 
-    @Override
-    public void signUpClick() {
-        validateInput();
+    public void signUp(final String username, final String email, final String phone,
+                       final String password, final String confirmPassword) {
+        if(validateInput(username, email, phone, password, confirmPassword)){
+            authenticationView.signUp(email, password, username);
+        }
     }
 
-    @Override
     public void showSignIn() {
-        ((AuthenticationActivity) Objects.requireNonNull(fragment.getActivity())).showSignIn();
+        authenticationView.showSignIn();
     }
 
-    private void validateInput() {
-        view.hideUsernameError();
-        view.hideEmailError();
-        view.hidePhoneError();
-        view.hidePasswordError();
-        view.hideConfirmError();
+    private boolean validateInput(final String username, final String email, final String phone,
+                                  final String password, final String confirmPassword) {
+        boolean isUsernameOk = !TextUtils.isEmpty(username);
+        boolean isEmailOk = isValidEmail(email);
+        boolean isPhoneOk = isValidPhone(phone);
+        boolean isPasswordOk = isValidPassword(password);
+        boolean isConfirmPasswordOk = isValidPassword(confirmPassword) && confirmPassword.equals(password);
 
-        String login = view.getUsername();
-        String email = view.getEmail();
-        String phone = view.getPhone();
-        String password = view.getPassword();
-        String confirmPassword = view.getConfirmPassword();
-
-        if (TextUtils.isEmpty(login)) {
+        if (!isUsernameOk) {
             view.showUsernameError();
-            return;
         }
 
-        if (TextUtils.isEmpty(email)) {
+        if (!isEmailOk) {
             view.showEmailError();
-            return;
         }
 
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            view.showEmailError();
-            return;
-        }
-
-        if (TextUtils.isEmpty(phone)) {
+        if (!isPhoneOk) {
             view.showPhoneError();
-            return;
         }
 
-        if (!isValidPassword(password)) {
+        if (!isPasswordOk) {
             view.showPasswordError();
-            return;
         }
 
-        if (!isValidPassword(confirmPassword)) {
-            view.showConfirmError();
-            return;
+        if (!isConfirmPasswordOk) {
+            view.showConfirmPasswordError();
         }
 
-        if (!password.equals(confirmPassword)) {
-            view.showConfirmError();
-            return;
-        }
-
-
-        ((AuthenticationActivity) Objects.requireNonNull(fragment.getActivity())).signUp(email, password);
-
+        return (isConfirmPasswordOk && isEmailOk && isPasswordOk && isPhoneOk && isUsernameOk);
     }
 }

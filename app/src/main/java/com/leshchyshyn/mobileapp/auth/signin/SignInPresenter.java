@@ -1,72 +1,58 @@
 package com.leshchyshyn.mobileapp.auth.signin;
 
-import android.text.TextUtils;
-import android.util.Patterns;
+import android.app.Activity;
 
 import com.leshchyshyn.mobileapp.auth.AuthenticationActivity;
+import com.leshchyshyn.mobileapp.auth.IAuthenticationView;
 
-import java.util.Objects;
+import static com.leshchyshyn.mobileapp.utils.Utils.isValidEmail;
+import static com.leshchyshyn.mobileapp.utils.Utils.isValidPassword;
 
-import static com.leshchyshyn.mobileapp.Utils.isValidPassword;
-
-public class SignInPresenter implements SignInContract.ISignInPresenter {
+public class SignInPresenter extends AuthenticationActivity
+        implements SignInContract.ISignInPresenter {
 
     private SignInContract.ISignInView view;
-    private SignInFragment fragment;
+    private IAuthenticationView authenticationView;
 
-    SignInPresenter(SignInContract.ISignInView view, SignInFragment fragment) {
+    public SignInPresenter(SignInContract.ISignInView view, Activity activity) {
         this.view = view;
-        this.fragment = fragment;
+        authenticationView = (IAuthenticationView) activity;
     }
 
-    @Override
-    public void signInClick() {
-        validateInput();
+    public void signIn(final String email, final String password) {
+        if (validateInput(email, password)) {
+            authenticationView.signIn(email, password);
+        }
     }
 
-
-    @Override
-    public void googleSignInClick()
-    {
-        ((AuthenticationActivity) Objects.requireNonNull(fragment.getActivity())).googleSignIn();
+    public void googleSignIn() {
+        authenticationView.googleSignIn();
     }
 
-    @Override
-    public void facebookSignInClick(){
-        ((AuthenticationActivity) Objects.requireNonNull(fragment.getActivity())).facebookSignIn();
+    public void facebookSignIn() {
+        authenticationView.facebookSignIn();
     }
 
-    private void validateInput() {
-        view.hideLoginError();
-        view.hidePasswordError();
+    private boolean validateInput(final String email, final String password) {
+        boolean isEmailOk = isValidEmail(email);
+        boolean isPasswordOk = isValidPassword(password);
 
-        String login = view.getLoginText();
-        String password = view.getPasswordText();
-        if (TextUtils.isEmpty(login)) {
-            view.showLoginError();
-            return;
+        if (!isEmailOk) {
+            view.showEmailError();
         }
 
-        if (!Patterns.EMAIL_ADDRESS.matcher(login).matches()) {
-            view.showLoginError();
-            return;
-        }
-
-        if (!isValidPassword(password)) {
+        if (!isPasswordOk) {
             view.showPasswordError();
-            return;
         }
 
-        ((AuthenticationActivity) Objects.requireNonNull(fragment.getActivity())).signIn(login, password);
+        return (isEmailOk && isPasswordOk);
     }
 
-    @Override
-    public void showSignUp() {
-        ((AuthenticationActivity) Objects.requireNonNull(fragment.getActivity())).showSignUp();
-    }
-
-    @Override
     public void showForgotPassword() {
-        ((AuthenticationActivity) Objects.requireNonNull(fragment.getActivity())).showForgotPassword();
+        authenticationView.showForgotPassword();
+    }
+
+    public void showSignUp() {
+        authenticationView.showSignUp();
     }
 }

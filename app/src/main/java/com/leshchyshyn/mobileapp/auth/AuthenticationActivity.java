@@ -9,83 +9,73 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.leshchyshyn.mobileapp.MainActivity;
 import com.leshchyshyn.mobileapp.R;
-import com.leshchyshyn.mobileapp.Utils;
+import com.leshchyshyn.mobileapp.utils.Utils;
 import com.leshchyshyn.mobileapp.auth.forgotpassword.ForgotPasswordFragment;
 import com.leshchyshyn.mobileapp.auth.signin.SignInFragment;
 import com.leshchyshyn.mobileapp.auth.signup.SignUpFragment;
 
-public class AuthenticationActivity extends AppCompatActivity {
+public class AuthenticationActivity extends AppCompatActivity implements IAuthenticationView {
+
+    private Auth auth = Auth.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
 
-        if (Auth.isUserAuth()) {
+        if (auth.isUserAuth()) {
             startMainActivity();
         } else {
-            showSignIn();
+            replaceFragment(new SignInFragment());
+        }
+    }
+
+    public void replaceFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        if (Utils.isFragmentInBackStack(getSupportFragmentManager(),
+                fragment.getClass().getName())) {
+            getSupportFragmentManager().popBackStackImmediate(fragment.getClass().getName(), 0);
+        } else {
+            transaction.replace(R.id.fragment, fragment)
+                    .addToBackStack(fragment.getClass().getName())
+                    .commit();
         }
     }
 
     public void showSignIn() {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (Utils.isFragmentInBackstack(getSupportFragmentManager(),
-                SignInFragment.class.getName())) {
-            getSupportFragmentManager().popBackStackImmediate(SignInFragment.class.getName(), 0);
-        } else {
-            Fragment fragment = new SignInFragment();
-            transaction.replace(R.id.fragment, fragment)
-                    .addToBackStack(SignInFragment.class.getName())
-                    .commit();
-        }
+        replaceFragment(new SignInFragment());
     }
 
     public void showSignUp() {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (Utils.isFragmentInBackstack(getSupportFragmentManager(),
-                SignUpFragment.class.getName())) {
-            getSupportFragmentManager().popBackStackImmediate(SignUpFragment.class.getName(), 0);
-        } else {
-            Fragment fragment = new SignUpFragment();
-            transaction.replace(R.id.fragment, fragment)
-                    .addToBackStack(SignUpFragment.class.getName())
-                    .commit();
-        }
+        replaceFragment(new SignUpFragment());
     }
 
     public void showForgotPassword() {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (Utils.isFragmentInBackstack(getSupportFragmentManager(),
-                ForgotPasswordFragment.class.getName())) {
-            getSupportFragmentManager().popBackStackImmediate(ForgotPasswordFragment.class.getName(), 0);
-        } else {
-            Fragment fragment = new ForgotPasswordFragment();
-            transaction.replace(R.id.fragment, fragment)
-                    .addToBackStack(ForgotPasswordFragment.class.getName())
-                    .commit();
-        }
+        replaceFragment(new ForgotPasswordFragment());
     }
 
     public void signIn(String email, String password) {
-        Auth.signIn(email, password, this);
+        auth.signIn(email, password, this);
     }
 
-    public void signUp(String email, String password) {
-        Auth.signUp(email, password, this);
+    public void signUp(String email, String password, String username) {
+        auth.signUp(email, password, username, this);
     }
 
     public void googleSignIn() {
-        Auth.googleSignIn(this);
+        auth.googleSignIn(this);
     }
 
     public void facebookSignIn() {
-        Auth.facebookSignIn(this);
+        auth.facebookSignIn(this);
     }
 
-    public void sendRecoverCode(String email) {
-        Auth.sendRecoverCode(email);
+    public void sendRecoveryCode(String email) {
+        auth.sendRecoveryCode(email);
     }
 
+    @Override
     public void startMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -96,7 +86,7 @@ public class AuthenticationActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Auth.onActivityResult(requestCode, resultCode, data, this);
+        auth.onActivityResult(requestCode, resultCode, data, this);
     }
 
     @Override

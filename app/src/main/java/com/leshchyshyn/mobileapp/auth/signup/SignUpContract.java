@@ -1,48 +1,21 @@
 package com.leshchyshyn.mobileapp.auth.signup;
 
-import android.view.View;
-
 public interface SignUpContract {
 
     interface ISignUpView{
-        void init(View root);
-
-        void setPresenter(ISignUpPresenter presenter);
-
-        void hideUsernameError();
-
         void showUsernameError();
 
-        void hideEmailError();
-
         void showEmailError();
-        
-        void hidePhoneError();
         
         void showPhoneError();
 
         void showPasswordError();
 
-        void hidePasswordError();
-
-        void showConfirmError();
-
-        void hideConfirmError();
-
-        String getUsername();
-
-        String getPassword();
-
-        String getEmail();
-
-        String getPhone();
-
-        String getConfirmPassword();
+        void showConfirmPasswordError();
     }
 
     interface ISignUpPresenter{
-        void signUpClick();
-
-        void showSignIn();
+        void signUp(final String username, final String email, final String phone,
+                     final String password, final String confirmPassword);
     }
 }

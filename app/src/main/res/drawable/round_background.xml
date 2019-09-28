@@ -4,7 +4,7 @@
         <shape
             android:shape="rectangle"
             android:padding="5dp">
-            <solid android:color="#2affffff" />
+            <solid android:color="@color/grey" />
             <corners
                 android:bottomRightRadius="30dp"
                 android:bottomLeftRadius="30dp"
@@ -13,10 +13,10 @@
         </shape>
     </item>
     <item android:bottom="2px" android:right="2px">
-        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+        <shape
             android:shape="rectangle"
             android:padding="5dp">
-            <solid android:color="#2fffffff"/> <!-- this one is ths color of the Rounded Button -->
+            <solid android:color="@color/grey"/> <!-- this one is ths color of the Rounded Button -->
             <corners
                 android:bottomRightRadius="20dp"
                 android:bottomLeftRadius="20dp"
