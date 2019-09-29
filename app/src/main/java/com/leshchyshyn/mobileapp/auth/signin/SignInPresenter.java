@@ -2,14 +2,12 @@ package com.leshchyshyn.mobileapp.auth.signin;
 
 import android.app.Activity;
 
-import com.leshchyshyn.mobileapp.auth.AuthenticationActivity;
 import com.leshchyshyn.mobileapp.auth.IAuthenticationView;
 
 import static com.leshchyshyn.mobileapp.utils.Utils.isValidEmail;
 import static com.leshchyshyn.mobileapp.utils.Utils.isValidPassword;
 
-public class SignInPresenter extends AuthenticationActivity
-        implements SignInContract.ISignInPresenter {
+public class SignInPresenter implements SignInContract.ISignInPresenter {
 
     private SignInContract.ISignInView view;
     private IAuthenticationView authenticationView;

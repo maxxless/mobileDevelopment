@@ -2,13 +2,11 @@ package com.leshchyshyn.mobileapp.auth.forgotpassword;
 
 import android.app.Activity;
 
-import com.leshchyshyn.mobileapp.auth.AuthenticationActivity;
 import com.leshchyshyn.mobileapp.auth.IAuthenticationView;
 
 import static com.leshchyshyn.mobileapp.utils.Utils.isValidEmail;
 
-public class ForgotPasswordPresenter extends AuthenticationActivity
-        implements ForgotPasswordContract.IForgotPasswordPresenter {
+public class ForgotPasswordPresenter implements ForgotPasswordContract.IForgotPasswordPresenter {
 
     private ForgotPasswordContract.IForgotPasswordView view;
     private IAuthenticationView authenticationView;

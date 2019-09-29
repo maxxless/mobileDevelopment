@@ -10,6 +10,10 @@ import java.util.regex.Pattern;
 public class Utils {
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("[a-zA-Z0-9!@#$]{8,24}");
 
+    private Utils() {
+
+    }
+
     public static boolean isFragmentInBackStack(final FragmentManager fragmentManager,
                                                 final String fragmentTagName) {
         for (int entry = 0; entry < fragmentManager.getBackStackEntryCount(); entry++) {

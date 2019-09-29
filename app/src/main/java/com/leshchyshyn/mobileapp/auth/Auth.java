@@ -36,7 +36,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class Auth {
     private static Auth INSTANCE = new Auth();
 
-    private final static int RC_SIGN_IN = 2;
+    private static final int REQUEST_CODE_SIGN_IN = 2;
     private GoogleSignInClient googleSignInClient;
 
     private CallbackManager callbackManager;
@@ -55,7 +55,7 @@ public class Auth {
         ((AuthenticationActivity) activity).startMainActivity();
     }
 
-    public void signIn(String email, String password, final Activity activity) {
+    public void signIn(final String email, final String password, final Activity activity) {
         final FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
             @Override
@@ -101,7 +101,7 @@ public class Auth {
         });
     }
 
-    public void sendRecoveryCode(String email) {
+    public void sendRecoveryCode(final String email) {
         FirebaseAuth.getInstance().sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -163,13 +163,14 @@ public class Auth {
         return callbackManager;
     }
 
-    private void handleFacebookToken(AccessToken accessToken, final Activity activity) {
-        AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
+    private void handleFacebookToken(final AccessToken accessToken, final Activity activity) {
+        final AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
         final FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.signInWithCredential(credential).addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                    sharedPrefsHelper.saveUsername(Objects.requireNonNull(auth.getCurrentUser()).getDisplayName());
                     Toast.makeText(getApplicationContext(), "Authentication is successful.(Firebase)",
                             Toast.LENGTH_SHORT).show();
                     auth.getCurrentUser();
@@ -187,15 +188,14 @@ public class Auth {
      * Google part
      */
     public void googleSignIn(Activity activity) {
-        GoogleSignInClient googleSignInClient = getGoogleClient();
+        GoogleSignInClient googleClient = getGoogleClient();
 
-        Intent signInIntent = googleSignInClient.getSignInIntent();
-        activity.startActivityForResult(signInIntent, RC_SIGN_IN);
+        Intent signInIntent = googleClient.getSignInIntent();
+        activity.startActivityForResult(signInIntent, REQUEST_CODE_SIGN_IN);
     }
 
     private GoogleSignInClient getGoogleClient() {
         if (googleSignInClient == null) {
-            //Google
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestIdToken(getApplicationContext().getString(R.string.default_web_client_id))
                     .requestEmail()
@@ -234,7 +234,7 @@ public class Auth {
                                  Activity activity) {
         getCallbackManager().onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == RC_SIGN_IN) {
+        if (requestCode == REQUEST_CODE_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);

@@ -56,7 +56,7 @@ public class SignInFragment extends Fragment implements SignInContract.ISignInVi
 
         googleImg = view.findViewById(R.id.google_signIn_button);
         facebookBtn = view.findViewById(R.id.facebook_btn);
-        facebookBtn.setReadPermissions(Collections.singletonList("emailClick"));
+        facebookBtn.setReadPermissions("email");
 
         loginEt.setError(null);
         passwordEt.setError(null);

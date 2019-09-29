@@ -3,15 +3,13 @@ package com.leshchyshyn.mobileapp.auth.signup;
 import android.app.Activity;
 import android.text.TextUtils;
 
-import com.leshchyshyn.mobileapp.auth.AuthenticationActivity;
 import com.leshchyshyn.mobileapp.auth.IAuthenticationView;
 
 import static com.leshchyshyn.mobileapp.utils.Utils.isValidEmail;
 import static com.leshchyshyn.mobileapp.utils.Utils.isValidPassword;
 import static com.leshchyshyn.mobileapp.utils.Utils.isValidPhone;
 
-public class SignUpPresenter extends AuthenticationActivity
-        implements SignUpContract.ISignUpPresenter {
+public class SignUpPresenter implements SignUpContract.ISignUpPresenter {
 
     private SignUpContract.ISignUpView view;
     private IAuthenticationView authenticationView;
