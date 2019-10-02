@@ -30,7 +30,9 @@ public class SignUpFragment extends Fragment implements SignUpContract.ISignUpVi
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_signup, container, false);
 
         initView();
@@ -84,27 +86,27 @@ public class SignUpFragment extends Fragment implements SignUpContract.ISignUpVi
 
     @Override
     public void showUsernameError() {
-        usernameEt.setError("Please enter valid username");
+        usernameEt.setError(getString(R.string.invalidUsername));
     }
 
     @Override
     public void showEmailError() {
-        emailEt.setError("Please enter valid email");
+        emailEt.setError(getString(R.string.invalidEmail));
     }
 
     @Override
     public void showPhoneError() {
-        phoneEt.setError("Please enter valid phone");
+        phoneEt.setError(getString(R.string.invalidPhone));
     }
 
     @Override
     public void showPasswordError() {
-        passwordEt.setError("Please enter valid password");
+        passwordEt.setError(getString(R.string.invalidPassword));
     }
 
     @Override
     public void showConfirmPasswordError() {
-        confirmPasswordEt.setError("Passwords should match");
+        confirmPasswordEt.setError(getString(R.string.differentPasswordFields));
     }
 }
 

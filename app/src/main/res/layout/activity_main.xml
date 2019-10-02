@@ -19,6 +19,17 @@
         android:textColor="@color/dark_purple"
         android:textSize="20sp" />
 
+    <TextView
+        android:id="@+id/phone_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="15sp"
+        android:fontFamily="casual"
+        android:text="@string/phone"
+        android:textColor="@color/dark_purple"
+        android:textSize="20sp" />
+
     <Button
         android:id="@+id/sign_out_btn"
         android:layout_width="wrap_content"

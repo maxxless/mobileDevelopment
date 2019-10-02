@@ -21,8 +21,8 @@ public class SignUpPresenter implements SignUpContract.ISignUpPresenter {
 
     public void signUp(final String username, final String email, final String phone,
                        final String password, final String confirmPassword) {
-        if(validateInput(username, email, phone, password, confirmPassword)){
-            authenticationView.signUp(email, password, username);
+        if (validateInput(username, email, phone, password, confirmPassword)) {
+            authenticationView.signUp(email, password, username, phone);
         }
     }
 
@@ -36,7 +36,8 @@ public class SignUpPresenter implements SignUpContract.ISignUpPresenter {
         boolean isEmailOk = isValidEmail(email);
         boolean isPhoneOk = isValidPhone(phone);
         boolean isPasswordOk = isValidPassword(password);
-        boolean isConfirmPasswordOk = isValidPassword(confirmPassword) && confirmPassword.equals(password);
+        boolean isConfirmPasswordOk =
+                isValidPassword(confirmPassword) && confirmPassword.equals(password);
 
         if (!isUsernameOk) {
             view.showUsernameError();

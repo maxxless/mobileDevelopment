@@ -20,13 +20,15 @@ import com.leshchyshyn.mobileapp.utils.SharedPrefsHelper;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
+
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 1;
 
     private TextView nameTextView;
+    private TextView phoneTextView;
+
     private Button signOutBtn;
 
     private Auth auth = Auth.getInstance();
-
     private SharedPrefsHelper sharedPrefsHelper = new SharedPrefsHelper();
 
     @Override
@@ -54,14 +56,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void initView() {
         nameTextView = findViewById(R.id.name_tv);
+        phoneTextView = findViewById(R.id.phone_tv);
+
         signOutBtn = findViewById(R.id.sign_out_btn);
     }
 
     private void initValues() {
-        String text = "Welcome: " + sharedPrefsHelper.loadUsername(
-                Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail());
+        String displayName = Objects.requireNonNull(
+                FirebaseAuth.getInstance().getCurrentUser()).getDisplayName();
 
-        nameTextView.setText(text);
+        String welcome = getString(R.string.welcome) + displayName;
+
+        String phone = getString(R.string.userPhoneLabel) + sharedPrefsHelper.loadPhone();
+
+        nameTextView.setText(welcome);
+        phoneTextView.setText(phone);
     }
 
     private void initListeners() {

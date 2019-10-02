@@ -17,6 +17,7 @@ import com.leshchyshyn.mobileapp.auth.signup.SignUpFragment;
 public class AuthenticationActivity extends AppCompatActivity implements IAuthenticationView {
 
     private Auth auth = Auth.getInstance();
+    private Utils utils = Utils.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,7 @@ public class AuthenticationActivity extends AppCompatActivity implements IAuthen
     public void replaceFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        if (Utils.isFragmentInBackStack(getSupportFragmentManager(),
+        if (utils.isFragmentInBackStack(getSupportFragmentManager(),
                 fragment.getClass().getName())) {
             getSupportFragmentManager().popBackStackImmediate(fragment.getClass().getName(), 0);
         } else {
@@ -59,8 +60,8 @@ public class AuthenticationActivity extends AppCompatActivity implements IAuthen
         auth.signIn(email, password, this);
     }
 
-    public void signUp(String email, String password, String username) {
-        auth.signUp(email, password, username, this);
+    public void signUp(String email, String password, String username, String phone) {
+        auth.signUp(email, password, username, phone, this);
     }
 
     public void googleSignIn() {

@@ -26,6 +26,7 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.leshchyshyn.mobileapp.R;
 import com.leshchyshyn.mobileapp.utils.SharedPrefsHelper;
 
@@ -34,7 +35,8 @@ import java.util.Objects;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class Auth {
-    private static Auth INSTANCE = new Auth();
+
+    private static final Auth INSTANCE = new Auth();
 
     private static final int REQUEST_CODE_SIGN_IN = 2;
     private GoogleSignInClient googleSignInClient;
@@ -57,35 +59,71 @@ public class Auth {
 
     public void signIn(final String email, final String password, final Activity activity) {
         final FirebaseAuth auth = FirebaseAuth.getInstance();
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Signed in successfully", Toast.LENGTH_SHORT).show();
-                    auth.getCurrentUser();
-                    startMainActivity(activity);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Sign in failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(),
+                                    R.string.signInSuccess, Toast.LENGTH_SHORT).show();
+
+                            auth.getCurrentUser();
+
+                            startMainActivity(activity);
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    R.string.signInFailure, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
-    public void signUp(final String email, final String password, final String username, final Activity activity) {
+    public void signUp(final String email, final String password, final String username,
+                       final String phone, final Activity activity) {
         final FirebaseAuth auth = FirebaseAuth.getInstance();
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    sharedPrefsHelper.saveUsername(username);
-                    Toast.makeText(getApplicationContext(), "Signed up successfully.", Toast.LENGTH_SHORT).show();
-                    sendSignUpConfirm(Objects.requireNonNull(auth.getCurrentUser()));
-                    startMainActivity(activity);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Sign up failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            sharedPrefsHelper.savePhone(phone);
+
+                            Toast.makeText(getApplicationContext(),
+                                    R.string.signUpSuccess, Toast.LENGTH_SHORT).show();
+
+                            sendSignUpConfirm(Objects.requireNonNull(auth.getCurrentUser()));
+
+                            addUserDisplayName(username, activity);
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    R.string.signUpFailure, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    public void addUserDisplayName(final String username, final Activity activity) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(username)
+                .build();
+
+        Objects.requireNonNull(user).updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            startMainActivity(activity);
+
+                            Toast.makeText(getApplicationContext(),
+                                    R.string.addingNameSuccess, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    R.string.addingNameFailure, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private void sendSignUpConfirm(FirebaseUser user) {
@@ -93,25 +131,30 @@ public class Auth {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Email was sent successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),
+                            R.string.emailIsSent, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Email was not sent: error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),
+                            R.string.emailSendingError, Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
     public void sendRecoveryCode(final String email) {
-        FirebaseAuth.getInstance().sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Email was sent successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Email was not sent: error", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(),
+                                    R.string.emailIsSent, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    R.string.emailSendingError, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     public boolean isUserAuth() {
@@ -130,7 +173,6 @@ public class Auth {
         FirebaseAuth.getInstance().signOut();
     }
 
-
     /**
      * Facebook part
      */
@@ -138,51 +180,56 @@ public class Auth {
         FacebookSdk.sdkInitialize(getApplicationContext());
         getCallbackManager();
 
-        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                handleFacebookToken(loginResult.getAccessToken(), activity);
-            }
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        handleFacebookToken(loginResult.getAccessToken(), activity);
+                    }
 
-            @Override
-            public void onCancel() {
-                Toast.makeText(getApplicationContext(), "User cancelled Facebook login", Toast.LENGTH_SHORT).show();
-            }
+                    @Override
+                    public void onCancel() {
+                        Toast.makeText(getApplicationContext(),
+                                R.string.fbLoginCancel, Toast.LENGTH_SHORT).show();
+                    }
 
-            @Override
-            public void onError(FacebookException error) {
-                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onError(FacebookException error) {
+                        Toast.makeText(getApplicationContext(),
+                                error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private CallbackManager getCallbackManager() {
         if (callbackManager == null) {
             callbackManager = CallbackManager.Factory.create();
         }
+
         return callbackManager;
     }
 
     private void handleFacebookToken(final AccessToken accessToken, final Activity activity) {
         final AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
         final FirebaseAuth auth = FirebaseAuth.getInstance();
-        auth.signInWithCredential(credential).addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    sharedPrefsHelper.saveUsername(Objects.requireNonNull(auth.getCurrentUser()).getDisplayName());
-                    Toast.makeText(getApplicationContext(), "Authentication is successful.(Firebase)",
-                            Toast.LENGTH_SHORT).show();
-                    auth.getCurrentUser();
-                    startMainActivity(activity);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Authentication failed.(Firebase)",
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
+        auth.signInWithCredential(credential)
+                .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), R.string.firebaseAuthSuccess,
+                                    Toast.LENGTH_SHORT).show();
 
+                            auth.getCurrentUser();
+
+                            startMainActivity(activity);
+                        } else {
+                            Toast.makeText(getApplicationContext(), R.string.firebaseAuthFailure,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 
     /**
      * Google part
@@ -196,13 +243,17 @@ public class Auth {
 
     private GoogleSignInClient getGoogleClient() {
         if (googleSignInClient == null) {
-            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken(getApplicationContext().getString(R.string.default_web_client_id))
-                    .requestEmail()
-                    .build();
+            GoogleSignInOptions gso =
+                    new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                            .requestIdToken(
+                                    getApplicationContext()
+                                            .getString(R.string.default_web_client_id))
+                            .requestEmail()
+                            .build();
 
             googleSignInClient = GoogleSignIn.getClient(getApplicationContext(), gso);
         }
+
         return googleSignInClient;
     }
 
@@ -215,17 +266,19 @@ public class Auth {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            sharedPrefsHelper.saveUsername(acct.getDisplayName());
-                            Toast.makeText(getApplicationContext(), "Google authentication is successful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),
+                                    R.string.googleAuthSuccess, Toast.LENGTH_SHORT).show();
+
                             auth.getCurrentUser();
+
                             startMainActivity(activity);
                         } else {
-                            Toast.makeText(getApplicationContext(), "Google authentication failed(Firebase part)", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),
+                                    R.string.googleAuthFailure, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
-
 
     /**
      * Request code checking
@@ -236,11 +289,13 @@ public class Auth {
 
         if (requestCode == REQUEST_CODE_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 Auth.getInstance().firebaseAuthWithGoogle(Objects.requireNonNull(account), activity);
             } catch (ApiException e) {
-                Toast.makeText(getApplicationContext(), "Google authentication failed(Google part)", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),
+                        R.string.googleInternalAuthFailure, Toast.LENGTH_SHORT).show();
             }
         }
     }

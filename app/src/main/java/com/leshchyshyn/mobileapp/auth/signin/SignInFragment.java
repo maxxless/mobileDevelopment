@@ -15,9 +15,9 @@ import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
 import com.leshchyshyn.mobileapp.R;
 
-import java.util.Collections;
-
 public class SignInFragment extends Fragment implements SignInContract.ISignInView {
+
+    private static final String FACEBOOK_EMAIL_PERMISSION = "email";
 
     private View view;
     private SignInPresenter signInPresenter;
@@ -35,7 +35,9 @@ public class SignInFragment extends Fragment implements SignInContract.ISignInVi
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_signin, container, false);
 
         initView();
@@ -46,17 +48,17 @@ public class SignInFragment extends Fragment implements SignInContract.ISignInVi
     }
 
     private void initView() {
-        loginEt =  view.findViewById(R.id.username_et);
-        passwordEt =  view.findViewById(R.id.password_et);
+        loginEt = view.findViewById(R.id.username_et);
+        passwordEt = view.findViewById(R.id.password_et);
 
-        signInBtn =  view.findViewById(R.id.signin_btn);
+        signInBtn = view.findViewById(R.id.signin_btn);
 
         forgotPasswordTv = view.findViewById(R.id.forgot_password_txt);
-        signUpTv =  view.findViewById(R.id.signup_txt);
+        signUpTv = view.findViewById(R.id.signup_txt);
 
         googleImg = view.findViewById(R.id.google_signIn_button);
         facebookBtn = view.findViewById(R.id.facebook_btn);
-        facebookBtn.setReadPermissions("email");
+        facebookBtn.setReadPermissions(FACEBOOK_EMAIL_PERMISSION);
 
         loginEt.setError(null);
         passwordEt.setError(null);
@@ -107,12 +109,12 @@ public class SignInFragment extends Fragment implements SignInContract.ISignInVi
 
     @Override
     public void showEmailError() {
-        loginEt.setError("Please enter valid email");
+        loginEt.setError(getString(R.string.invalidEmail));
     }
 
     @Override
     public void showPasswordError() {
-        passwordEt.setError("Please enter valid password");
+        passwordEt.setError(getString(R.string.invalidPassword));
     }
 
 }

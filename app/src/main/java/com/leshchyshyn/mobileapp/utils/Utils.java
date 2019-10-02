@@ -8,14 +8,20 @@ import androidx.fragment.app.FragmentManager;
 import java.util.regex.Pattern;
 
 public class Utils {
+
+    private static final Utils INSTANCE = new Utils();
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("[a-zA-Z0-9!@#$]{8,24}");
 
     private Utils() {
 
     }
 
-    public static boolean isFragmentInBackStack(final FragmentManager fragmentManager,
-                                                final String fragmentTagName) {
+    public static Utils getInstance() {
+        return INSTANCE;
+    }
+
+    public boolean isFragmentInBackStack(final FragmentManager fragmentManager,
+                                         final String fragmentTagName) {
         for (int entry = 0; entry < fragmentManager.getBackStackEntryCount(); entry++) {
             if (fragmentTagName.equals(fragmentManager.getBackStackEntryAt(entry).getName())) {
                 return true;

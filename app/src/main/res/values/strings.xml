@@ -1,25 +1,77 @@
 <resources>
+    // App name
     <string name="app_name">MobileApp</string>
+
+    // Facebook
     <string name="facebook_app_id">972238553112305</string>
     <string name="fb_login_protocol_scheme">fb972238553112305</string>
 
-    <string name="profile">Profile</string>
-    <string name="sign_out">Sign out</string>
-
-    <string name="account">Do not have an account?</string>
+    // General
+    <string name="login_here">LOGIN HERE</string>
     <string name="register">REGISTER HERE</string>
+    <string name="account">Do not have an account?</string>
     <string name="forgot_pass">Forgot Password?</string>
+    <string name="already_have_acc">Already have an account?</string>
+    <string name="remember_pass">Remember password?</string>
+
+    // Buttons
     <string name="login">Login</string>
-    <string name="pass">Password</string>
-    <string name="username">Username</string>
+    <string name="register_label">Register</string>
+    <string name="recovery">Send Recovery Code</string>
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
+    <string name="sign_out">Sign out</string>
+
+    // Fields placeholders
+    <string name="username">Username</string>
     <string name="email">Email</string>
-    <string name="register_label">Register</string>
-    <string name="login_here">LOGIN HERE</string>
-    <string name="already_have_acc">Already have an account?</string>
-    <string name="confirm_pass">Confirm Password</string>
-    <string name="recovery">Send Recovery Code</string>
-    <string name="remember_pass">Remember password?</string>
     <string name="phone">Phone Number</string>
+    <string name="pass">Password</string>
+    <string name="confirm_pass">Confirm Password</string>
+
+    // Validation Errors
+    <string name="invalidEmail">Please enter valid email</string>
+    <string name="invalidPassword">Please enter valid password</string>
+    <string name="invalidUsername">Please enter valid username</string>
+    <string name="invalidPhone">Please enter valid phone</string>
+    <string name="differentPasswordFields">Passwords should match</string>
+
+    // Main Activity Text
+    <string name="welcome">Welcome,</string>
+    <string name="userPhoneLabel">Your phone: </string>
+
+    // Default String for Shared Preferences
+    <string name="unavailable">Unavailable</string>
+
+
+    // Toasts
+
+    // Login
+    <string name="signInSuccess">Signed in successfully</string>
+    <string name="signInFailure">Sign in failed</string>
+
+    // Registration
+    <string name="signUpSuccess">Signed up successfully</string>
+    <string name="signUpFailure">Sign up failed</string>
+
+    // Forget Password
+    <string name="recoveryCodeIsSent">You will receive recovery code soon!</string>
+
+    // Updating username
+    <string name="addingNameSuccess">Username successfully added</string>
+    <string name="addingNameFailure">Username was not added</string>
+
+    // Email sending confirmation
+    <string name="emailIsSent">Email was sent successfully</string>
+    <string name="emailSendingError">Email was not sent: error</string>
+
+    // Facebook
+    <string name="fbLoginCancel">User cancelled Facebook login</string>
+    <string name="firebaseAuthSuccess">Authentication is successful.(Firebase)</string>
+    <string name="firebaseAuthFailure">Authentication failed.(Firebase)</string>
+
+    // Google
+    <string name="googleAuthSuccess">Google authentication is successful</string>
+    <string name="googleAuthFailure">Google authentication failed(Firebase part)</string>
+    <string name="googleInternalAuthFailure">Google authentication failed(Google part)</string>
 </resources>

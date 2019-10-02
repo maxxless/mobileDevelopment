@@ -2,11 +2,11 @@ package com.leshchyshyn.mobileapp.auth.signup;
 
 public interface SignUpContract {
 
-    interface ISignUpView{
+    interface ISignUpView {
         void showUsernameError();
 
         void showEmailError();
-        
+
         void showPhoneError();
 
         void showPasswordError();
@@ -14,8 +14,8 @@ public interface SignUpContract {
         void showConfirmPasswordError();
     }
 
-    interface ISignUpPresenter{
+    interface ISignUpPresenter {
         void signUp(final String username, final String email, final String phone,
-                     final String password, final String confirmPassword);
+                    final String password, final String confirmPassword);
     }
 }

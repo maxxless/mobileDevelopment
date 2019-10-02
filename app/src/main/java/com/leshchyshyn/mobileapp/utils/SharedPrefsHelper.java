@@ -3,29 +3,35 @@ package com.leshchyshyn.mobileapp.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.leshchyshyn.mobileapp.R;
+
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class SharedPrefsHelper {
+
     private static final String SHARED_PREFS = "SHARED_PREFS";
-    private static final String SAVED_USERNAME = "SAVED_USERNAME";
+    private static final String SAVED_PHONE = "SAVED_PHONE";
+
     private Context mContext;
 
     public SharedPrefsHelper() {
         mContext = getApplicationContext();
     }
 
-    public void saveUsername(String username) {
+    public void savePhone(String phone) {
         SharedPreferences prefs = mContext.getSharedPreferences(SHARED_PREFS, 0);
         SharedPreferences.Editor prefsEdit = prefs.edit();
 
-        prefsEdit.putString(SAVED_USERNAME, username);
+        prefsEdit.putString(SAVED_PHONE, phone);
         prefsEdit.apply();
     }
 
-    public String loadUsername(String email) {
+    public String loadPhone() {
         SharedPreferences prefs = mContext.getSharedPreferences(SHARED_PREFS, 0);
 
-        return prefs.getString(SAVED_USERNAME, email);
+        String defaultValue = getApplicationContext().getString(R.string.unavailable);
+
+        return prefs.getString(SAVED_PHONE, defaultValue);
     }
 
     public void clearPrefs() {

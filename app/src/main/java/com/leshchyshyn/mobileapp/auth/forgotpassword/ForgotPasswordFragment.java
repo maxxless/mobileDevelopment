@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 
 import com.leshchyshyn.mobileapp.R;
 
-
 public class ForgotPasswordFragment extends Fragment
         implements ForgotPasswordContract.IForgotPasswordView {
 
@@ -29,7 +28,9 @@ public class ForgotPasswordFragment extends Fragment
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_forgot_password, container, false);
 
         initView();
@@ -71,11 +72,11 @@ public class ForgotPasswordFragment extends Fragment
 
     @Override
     public void recoveryCodeIsSent() {
-        Toast.makeText(getActivity(), "You will receive recovery code soon!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.recoveryCodeIsSent, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showEmailError() {
-        emailEt.setError("Please enter valid email");
+        emailEt.setError(getString(R.string.invalidEmail));
     }
 }
