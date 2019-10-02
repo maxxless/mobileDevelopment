@@ -59,6 +59,7 @@ public class Auth {
 
     public void signIn(final String email, final String password, final Activity activity) {
         final FirebaseAuth auth = FirebaseAuth.getInstance();
+
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -81,6 +82,7 @@ public class Auth {
     public void signUp(final String email, final String password, final String username,
                        final String phone, final Activity activity) {
         final FirebaseAuth auth = FirebaseAuth.getInstance();
+
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -211,7 +213,9 @@ public class Auth {
 
     private void handleFacebookToken(final AccessToken accessToken, final Activity activity) {
         final AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
+
         final FirebaseAuth auth = FirebaseAuth.getInstance();
+
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -260,7 +264,9 @@ public class Auth {
     private void firebaseAuthWithGoogle(final GoogleSignInAccount acct,
                                         final Activity activity) {
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+
         final FirebaseAuth auth = FirebaseAuth.getInstance();
+
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                     @Override
