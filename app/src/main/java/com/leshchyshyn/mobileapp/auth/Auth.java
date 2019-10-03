@@ -46,7 +46,7 @@ public class Auth {
     private SharedPrefsHelper sharedPrefsHelper = new SharedPrefsHelper();
 
     private Auth() {
-
+        //default empty constructor for Singleton class with no attributes
     }
 
     public static Auth getInstance() {

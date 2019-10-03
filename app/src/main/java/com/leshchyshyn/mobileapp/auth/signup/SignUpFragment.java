@@ -28,19 +28,6 @@ public class SignUpFragment extends Fragment implements SignUpContract.ISignUpVi
 
     private TextView signInTv;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_signup, container, false);
-
-        initView();
-        initPresenter();
-        initListeners();
-        return view;
-    }
-
     private void initView() {
         usernameEt = view.findViewById(R.id.username_et);
         emailEt = view.findViewById(R.id.email_et);
@@ -82,6 +69,19 @@ public class SignUpFragment extends Fragment implements SignUpContract.ISignUpVi
                 signUpPresenter.showSignIn();
             }
         });
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_signup, container, false);
+
+        initView();
+        initPresenter();
+        initListeners();
+        return view;
     }
 
     @Override

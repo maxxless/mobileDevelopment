@@ -19,17 +19,6 @@ public class SignUpPresenter implements SignUpContract.ISignUpPresenter {
         authenticationView = (IAuthenticationView) activity;
     }
 
-    public void signUp(final String username, final String email, final String phone,
-                       final String password, final String confirmPassword) {
-        if (validateInput(username, email, phone, password, confirmPassword)) {
-            authenticationView.signUp(email, password, username, phone);
-        }
-    }
-
-    public void showSignIn() {
-        authenticationView.showSignIn();
-    }
-
     private boolean validateInput(final String username, final String email, final String phone,
                                   final String password, final String confirmPassword) {
         boolean isUsernameOk = !TextUtils.isEmpty(username);
@@ -60,5 +49,16 @@ public class SignUpPresenter implements SignUpContract.ISignUpPresenter {
         }
 
         return (isConfirmPasswordOk && isEmailOk && isPasswordOk && isPhoneOk && isUsernameOk);
+    }
+
+    public void signUp(final String username, final String email, final String phone,
+                       final String password, final String confirmPassword) {
+        if (validateInput(username, email, phone, password, confirmPassword)) {
+            authenticationView.signUp(email, password, username, phone);
+        }
+    }
+
+    public void showSignIn() {
+        authenticationView.showSignIn();
     }
 }

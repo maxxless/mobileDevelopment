@@ -13,7 +13,7 @@ public class Utils {
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("[a-zA-Z0-9!@#$]{8,24}");
 
     private Utils() {
-
+        //default empty constructor for Singleton class with no attributes
     }
 
     public static Utils getInstance() {

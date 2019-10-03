@@ -26,20 +26,6 @@ public class ForgotPasswordFragment extends Fragment
     private Button sendRecoverCodeBtn;
     private TextView backToSignInTv;
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_forgot_password, container, false);
-
-        initView();
-        initPresenter();
-        initListeners();
-
-        return view;
-    }
-
     private void initView() {
         emailEt = view.findViewById(R.id.email_et);
         sendRecoverCodeBtn = view.findViewById(R.id.send_recover_code_btn);
@@ -68,6 +54,20 @@ public class ForgotPasswordFragment extends Fragment
                 forgotPasswordPresenter.showSignIn();
             }
         });
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_forgot_password, container, false);
+
+        initView();
+        initPresenter();
+        initListeners();
+
+        return view;
     }
 
     @Override

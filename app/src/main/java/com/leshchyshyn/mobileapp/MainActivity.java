@@ -31,18 +31,6 @@ public class MainActivity extends AppCompatActivity {
     private Auth auth = Auth.getInstance();
     private SharedPrefsHelper sharedPrefsHelper = new SharedPrefsHelper();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        initView();
-        initValues();
-        initListeners();
-
-        requestPermission();
-    }
-
     private void requestPermission() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CALL_PHONE)
@@ -52,13 +40,6 @@ public class MainActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.CALL_PHONE},
                     MY_PERMISSIONS_REQUEST_CALL_PHONE);
         }
-    }
-
-    public void initView() {
-        nameTextView = findViewById(R.id.name_tv);
-        phoneTextView = findViewById(R.id.phone_tv);
-
-        signOutBtn = findViewById(R.id.sign_out_btn);
     }
 
     private void initValues() {
@@ -82,11 +63,30 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void signOut() {
+    private void signOut() {
         auth.signOut();
         Intent intent = new Intent(this, AuthenticationActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        initView();
+        initValues();
+        initListeners();
+
+        requestPermission();
+    }
+
+    public void initView() {
+        nameTextView = findViewById(R.id.name_tv);
+        phoneTextView = findViewById(R.id.phone_tv);
+
+        signOutBtn = findViewById(R.id.sign_out_btn);
     }
 
     @Override

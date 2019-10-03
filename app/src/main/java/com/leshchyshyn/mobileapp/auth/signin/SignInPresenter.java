@@ -17,20 +17,6 @@ public class SignInPresenter implements SignInContract.ISignInPresenter {
         authenticationView = (IAuthenticationView) activity;
     }
 
-    public void signIn(final String email, final String password) {
-        if (validateInput(email, password)) {
-            authenticationView.signIn(email, password);
-        }
-    }
-
-    public void googleSignIn() {
-        authenticationView.googleSignIn();
-    }
-
-    public void facebookSignIn() {
-        authenticationView.facebookSignIn();
-    }
-
     private boolean validateInput(final String email, final String password) {
         boolean isEmailOk = isValidEmail(email);
         boolean isPasswordOk = isValidPassword(password);
@@ -44,6 +30,20 @@ public class SignInPresenter implements SignInContract.ISignInPresenter {
         }
 
         return (isEmailOk && isPasswordOk);
+    }
+
+    public void signIn(final String email, final String password) {
+        if (validateInput(email, password)) {
+            authenticationView.signIn(email, password);
+        }
+    }
+
+    public void googleSignIn() {
+        authenticationView.googleSignIn();
+    }
+
+    public void facebookSignIn() {
+        authenticationView.facebookSignIn();
     }
 
     public void showForgotPassword() {

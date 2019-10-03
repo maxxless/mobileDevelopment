@@ -33,20 +33,6 @@ public class SignInFragment extends Fragment implements SignInContract.ISignInVi
     private SignInButton googleImg;
     private LoginButton facebookBtn;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_signin, container, false);
-
-        initView();
-        initPresenter();
-        initListeners();
-
-        return view;
-    }
-
     private void initView() {
         loginEt = view.findViewById(R.id.username_et);
         passwordEt = view.findViewById(R.id.password_et);
@@ -105,6 +91,20 @@ public class SignInFragment extends Fragment implements SignInContract.ISignInVi
                 signInPresenter.facebookSignIn();
             }
         });
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_signin, container, false);
+
+        initView();
+        initPresenter();
+        initListeners();
+
+        return view;
     }
 
     @Override
