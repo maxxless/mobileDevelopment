@@ -22,6 +22,11 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 
+    //RecyclerView & CardView
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support:cardview-v7:28.0.0'
+
     // Firebase components
     implementation 'com.google.firebase:firebase-core:17.2.0'
     implementation 'com.google.firebase:firebase-auth:19.1.0'
@@ -34,6 +39,27 @@ dependencies {
 
     // Circle Image View
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+
+    //SwipeForAction RecyclerView
+    implementation 'co.dift.ui.swipetoaction:library:1.1'
+
+    // Preferences fragment
+    implementation 'com.takisoft.fix:preference-v7:25.3.0.0'
+
+    //Image
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //Times Formater
+    implementation 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
+
+    //Json Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+
+    //Loading View
+    implementation 'io.saeid:fab-loading:1.0.0'
 
 }
 apply plugin: 'com.google.gms.google-services'
