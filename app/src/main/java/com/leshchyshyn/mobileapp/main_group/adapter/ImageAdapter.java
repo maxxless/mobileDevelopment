@@ -47,8 +47,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         return imageList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imageView;
+    public void updateImages(final List<Image> images) {
+        this.imageList = images;
+        notifyDataSetChanged();
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        private ImageView imageView;
 
         public ViewHolder(View view) {
             super(view);

@@ -1,7 +1,6 @@
 package com.leshchyshyn.mobileapp.main_group.adapter;
 
 import android.content.Context;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +20,11 @@ import java.util.List;
 
 public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
-    private Context mContext;
     private List<Car> carList;
 
     private CarsFragment carWithDetailsFragment;
 
-    public CarAdapter(Context context, List<Car> list) {
-        this.mContext = context;
+    public CarAdapter(List<Car> list) {
         this.carList = list;
     }
 
@@ -42,6 +39,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
+        final Context mContext = holder.itemView.getContext();
         final Car car = carList.get(position);
 
         holder.nameTv.setText(car.getName());
@@ -50,20 +48,17 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
         holder.typeTv.setText(car.getType());
         holder.colourTv.setText(car.getColour());
 
-        holder.seeDetailsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                carWithDetailsFragment = new CarsFragment();
+        holder.seeDetailsBtn.setOnClickListener(view -> {
+            carWithDetailsFragment = new CarsFragment();
 
-                FragmentManager fragmentManager =
-                        ((AppCompatActivity) mContext).getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.fragment_main_container, carWithDetailsFragment)
-                        .addToBackStack(null)
-                        .commit();
-                fragmentManager.executePendingTransactions();
-                carWithDetailsFragment.showCar(car);
-            }
+            FragmentManager fragmentManager =
+                    ((AppCompatActivity) mContext).getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_main_container, carWithDetailsFragment)
+                    .addToBackStack(null)
+                    .commit();
+            fragmentManager.executePendingTransactions();
+            carWithDetailsFragment.showCar(car);
         });
     }
 
@@ -72,13 +67,18 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
         return carList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView nameTv;
-        public TextView idTv;
-        public TextView typeTv;
-        public TextView colourTv;
+    public void updateCars(final List<Car> cars) {
+        this.carList = cars;
+        notifyDataSetChanged();
+    }
 
-        public Button seeDetailsBtn;
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView nameTv;
+        private TextView idTv;
+        private TextView typeTv;
+        private TextView colourTv;
+
+        private Button seeDetailsBtn;
 
         public ViewHolder(View itemView) {
             super(itemView);

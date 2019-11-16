@@ -33,12 +33,7 @@ public class ProfileEditFragment extends Fragment {
     }
 
     private void initListeners() {
-        editDoneTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveProfile();
-            }
-        });
+        editDoneTv.setOnClickListener(view -> saveProfile());
     }
 
     private void saveProfile() {

@@ -2,8 +2,6 @@ package com.leshchyshyn.mobileapp.main_group.cars;
 
 import android.content.Context;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import com.leshchyshyn.mobileapp.api.ApiService;
@@ -15,6 +13,7 @@ import com.leshchyshyn.mobileapp.utils.InternetConnection;
 import com.leshchyshyn.mobileapp.utils.JSONParser;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,13 +26,15 @@ public class CarsPresenter implements ICarsPresenter {
     private ICarsView carsView;
     private Context context;
 
-    private RecyclerView.Adapter adapter;
+    private CarAdapter adapter;
     private CarRepository carRepository;
     private String responseBody;
 
     public CarsPresenter(ICarsView iCarsView, Context context) {
         this.carsView = iCarsView;
         this.context = context;
+        this.adapter = new CarAdapter(new ArrayList<>());
+        this.carsView.setAdapter(this.adapter);
     }
 
     @Override
@@ -75,24 +76,22 @@ public class CarsPresenter implements ICarsPresenter {
                 }
             });
         } else {
-            carsView.showNotInternetConnection();
+            carsView.showNotInternetConnection(context);
             carsView.hideRefreshing();
         }
-
     }
 
     @Override
     public void setList() {
-        adapter = new CarAdapter(context, carRepository.getList());
-        carsView.setAdapter(adapter);
+        adapter.updateCars(carRepository.getList());
     }
 
     @Override
     public void findCarByName(final String name) {
-        if (name.matches("") || carRepository.getByName(name) == null) {
-            carsView.showNotFound();
+        if (name.isEmpty() || carRepository.getByName(name) == null) {
+            carsView.showNotFound(context);
         } else {
-            adapter = new CarAdapter(context, carRepository.getByName(name));
+            adapter = new CarAdapter(carRepository.getByName(name));
             carsView.setAdapter(adapter);
         }
     }

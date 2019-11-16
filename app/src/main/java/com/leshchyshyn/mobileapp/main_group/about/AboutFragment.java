@@ -23,13 +23,10 @@ public class AboutFragment extends Fragment {
 
         TextView author = view.findViewById(R.id.author);
 
-        author.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Uri uri = Uri.parse("https://www.github.com/maxxless");
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-            }
+        author.setOnClickListener(view1 -> {
+            Uri uri = Uri.parse("https://www.github.com/maxxless");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
         });
 
         return view;

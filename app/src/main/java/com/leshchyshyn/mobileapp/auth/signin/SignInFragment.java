@@ -109,12 +109,12 @@ public class SignInFragment extends Fragment implements SignInContract.ISignInVi
 
     @Override
     public void showEmailError() {
-        loginEt.setError(getString(R.string.invalidEmail));
+        loginEt.setError(getString(R.string.invalid_email));
     }
 
     @Override
     public void showPasswordError() {
-        passwordEt.setError(getString(R.string.invalidPassword));
+        passwordEt.setError(getString(R.string.invalid_password));
     }
 
 }

@@ -21,6 +21,7 @@ public class CarRepository implements IRepository {
                 cars.add(car);
             }
         }
+
         return cars;
     }
 

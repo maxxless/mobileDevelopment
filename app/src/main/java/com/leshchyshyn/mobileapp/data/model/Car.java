@@ -6,39 +6,53 @@ import com.google.gson.annotations.SerializedName;
 public class Car {
     @SerializedName("carId")
     @Expose
-    private int id;
+    private final int id;
 
     @SerializedName("carRegistrationNumber")
     @Expose
-    private String registrationNumber;
+    private final String registrationNumber;
 
     @SerializedName("carType")
     @Expose
-    private String type;
+    private final String type;
 
     @SerializedName("carColour")
     @Expose
-    private String colour;
+    private final String colour;
 
     @SerializedName("carName")
     @Expose
-    private String name;
+    private final String name;
 
     @SerializedName("carUser")
     @Expose
-    private User user;
+    private final User user;
 
     @SerializedName("carLocation")
     @Expose
-    private Location location;
+    private final Location location;
 
     @SerializedName("createdAt")
     @Expose
-    private String createdAt;
+    private final String createdAt;
 
     @SerializedName("updatedAt")
     @Expose
-    private String updatedAt;
+    private final String updatedAt;
+
+    public Car(final int id, final String registrationNumber, final String type,
+               final String colour, final String name, final User user, final Location location,
+               final String createdAt, final String updatedAt) {
+        this.id = id;
+        this.registrationNumber = registrationNumber;
+        this.type = type;
+        this.colour = colour;
+        this.name = name;
+        this.user = user;
+        this.location = location;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
     public int getId() {
         return id;

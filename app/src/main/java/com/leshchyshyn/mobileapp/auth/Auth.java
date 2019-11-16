@@ -66,14 +66,14 @@ public class Auth {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(),
-                                    R.string.signInSuccess, Toast.LENGTH_SHORT).show();
+                                    R.string.sign_in_success, Toast.LENGTH_SHORT).show();
 
                             auth.getCurrentUser();
 
                             startMainActivity(activity);
                         } else {
                             Toast.makeText(getApplicationContext(),
-                                    R.string.signInFailure, Toast.LENGTH_SHORT).show();
+                                    R.string.sign_in_failure, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -91,14 +91,14 @@ public class Auth {
                             sharedPrefsHelper.savePhone(phone);
 
                             Toast.makeText(getApplicationContext(),
-                                    R.string.signUpSuccess, Toast.LENGTH_SHORT).show();
+                                    R.string.sign_up_success, Toast.LENGTH_SHORT).show();
 
                             sendSignUpConfirm(Objects.requireNonNull(auth.getCurrentUser()));
 
                             addUserDisplayName(username, activity);
                         } else {
                             Toast.makeText(getApplicationContext(),
-                                    R.string.signUpFailure, Toast.LENGTH_SHORT).show();
+                                    R.string.sign_up_failure, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -119,10 +119,10 @@ public class Auth {
                             startMainActivity(activity);
 
                             Toast.makeText(getApplicationContext(),
-                                    R.string.addingNameSuccess, Toast.LENGTH_SHORT).show();
+                                    R.string.adding_name_success, Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getApplicationContext(),
-                                    R.string.addingNameFailure, Toast.LENGTH_SHORT).show();
+                                    R.string.adding_name_failure, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -134,10 +134,10 @@ public class Auth {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(getApplicationContext(),
-                            R.string.emailIsSent, Toast.LENGTH_SHORT).show();
+                            R.string.email_is_sent, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(),
-                            R.string.emailSendingError, Toast.LENGTH_SHORT).show();
+                            R.string.email_sending_error, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -150,10 +150,10 @@ public class Auth {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(),
-                                    R.string.emailIsSent, Toast.LENGTH_SHORT).show();
+                                    R.string.email_is_sent, Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getApplicationContext(),
-                                    R.string.emailSendingError, Toast.LENGTH_SHORT).show();
+                                    R.string.email_sending_error, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -192,7 +192,7 @@ public class Auth {
                     @Override
                     public void onCancel() {
                         Toast.makeText(getApplicationContext(),
-                                R.string.fbLoginCancel, Toast.LENGTH_SHORT).show();
+                                R.string.fb_login_cancel, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -221,14 +221,14 @@ public class Auth {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), R.string.firebaseAuthSuccess,
+                            Toast.makeText(getApplicationContext(), R.string.firebase_auth_success,
                                     Toast.LENGTH_SHORT).show();
 
                             auth.getCurrentUser();
 
                             startMainActivity(activity);
                         } else {
-                            Toast.makeText(getApplicationContext(), R.string.firebaseAuthFailure,
+                            Toast.makeText(getApplicationContext(), R.string.firebase_auth_failure,
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -273,14 +273,14 @@ public class Auth {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(),
-                                    R.string.googleAuthSuccess, Toast.LENGTH_SHORT).show();
+                                    R.string.google_auth_success, Toast.LENGTH_SHORT).show();
 
                             auth.getCurrentUser();
 
                             startMainActivity(activity);
                         } else {
                             Toast.makeText(getApplicationContext(),
-                                    R.string.googleAuthFailure, Toast.LENGTH_SHORT).show();
+                                    R.string.google_auth_failure, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -301,7 +301,7 @@ public class Auth {
                 Auth.getInstance().firebaseAuthWithGoogle(Objects.requireNonNull(account), activity);
             } catch (ApiException e) {
                 Toast.makeText(getApplicationContext(),
-                        R.string.googleInternalAuthFailure, Toast.LENGTH_SHORT).show();
+                        R.string.google_internal_auth_failure, Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.leshchyshyn.mobileapp.main_group.car;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
@@ -19,7 +18,6 @@ import com.leshchyshyn.mobileapp.data.model.Car;
 public class CarWithDetailsFragment extends Fragment {
 
     private View view;
-    private Context mContext;
     private Car car;
 
     private TextView fullCarNameTv;
@@ -45,7 +43,7 @@ public class CarWithDetailsFragment extends Fragment {
     private void initView() {
         RecyclerView recyclerView = view.findViewById(R.id.car_rv);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
         fullCarNameTv = view.findViewById(R.id.full_car_name_tv);

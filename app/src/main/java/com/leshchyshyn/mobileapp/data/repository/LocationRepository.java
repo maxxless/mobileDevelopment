@@ -20,6 +20,7 @@ public class LocationRepository implements IRepository {
                 temp = location;
             }
         }
+
         return temp;
     }
 

@@ -9,19 +9,27 @@ public class Location {
 
     @SerializedName("locationId")
     @Expose
-    private int id;
+    private final int id;
 
     @SerializedName("locationName")
     @Expose
-    private String name;
+    private final String name;
 
     @SerializedName("locationDescription")
     @Expose
-    private String description;
+    private final String description;
 
     @SerializedName("locationCars")
     @Expose
-    private Set<Car> cars;
+    private final Set<Car> cars;
+
+    public Location(final int id, final String name, final String description,
+                    final Set<Car> cars) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.cars = cars;
+    }
 
     public int getId() {
         return id;

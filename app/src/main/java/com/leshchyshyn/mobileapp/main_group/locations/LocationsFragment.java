@@ -2,7 +2,6 @@ package com.leshchyshyn.mobileapp.main_group.locations;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -51,12 +49,7 @@ public class LocationsFragment extends Fragment implements ILocationView, View.O
 
         locationPresenter.loadData();
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                locationPresenter.loadData();
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(() -> locationPresenter.loadData());
         return view;
     }
 
@@ -79,26 +72,20 @@ public class LocationsFragment extends Fragment implements ILocationView, View.O
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.location_search_fab: {
-                final EditText idEdit = new EditText(mContext);
-                idEdit.setInputType(InputType.TYPE_CLASS_NUMBER);
-                AlertDialog dialog = new AlertDialog.Builder(mContext)
-                        .setTitle("Search location")
-                        .setMessage("Enter an id of location")
-                        .setView(idEdit)
-                        .setPositiveButton(R.string.searchLabel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                String id = idEdit.getText().toString();
-                                locationPresenter.searchLocationById(id);
-                            }
-                        })
-                        .setNegativeButton(R.string.close, null)
-                        .create();
-                dialog.show();
-                break;
-            }
+        if (view.getId() == R.id.location_search_fab) {
+            final EditText idEdit = new EditText(mContext);
+            idEdit.setInputType(InputType.TYPE_CLASS_NUMBER);
+            AlertDialog dialog = new AlertDialog.Builder(mContext)
+                    .setTitle("Search location")
+                    .setMessage("Enter an id of location")
+                    .setView(idEdit)
+                    .setPositiveButton(R.string.search_label, (dialogInterface, i) -> {
+                        String id = idEdit.getText().toString();
+                        locationPresenter.searchLocationById(id);
+                    })
+                    .setNegativeButton(R.string.close, null)
+                    .create();
+            dialog.show();
         }
     }
 
@@ -121,15 +108,14 @@ public class LocationsFragment extends Fragment implements ILocationView, View.O
         }
     }
 
-
     @Override
     public void showProgress() {
-        showProgressLoaderWithBackground(true, mContext.getString(R.string.loadData));
+        showProgressLoaderWithBackground(true, mContext.getString(R.string.load_data));
     }
 
     @Override
     public void hideProgress() {
-        showProgressLoaderWithBackground(false, mContext.getString(R.string.loadData));
+        showProgressLoaderWithBackground(false, mContext.getString(R.string.load_data));
     }
 
     @Override
@@ -137,16 +123,6 @@ public class LocationsFragment extends Fragment implements ILocationView, View.O
         if (swipeRefreshLayout != null) {
             swipeRefreshLayout.setRefreshing(false);
         }
-    }
-
-    @Override
-    public void showNotFound() {
-        Toast.makeText(mContext, R.string.notFound, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showNotInternetConnection() {
-        Toast.makeText(mContext, R.string.noInternet, Toast.LENGTH_SHORT).show();
     }
 
     @Override

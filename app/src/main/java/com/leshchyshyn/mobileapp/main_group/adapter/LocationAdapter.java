@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,16 +20,15 @@ import java.util.List;
 
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder> {
 
-    private Context mContext;
     private List<Location> locationList;
 
     private LocationsFragment locationFragment;
 
-    public LocationAdapter(Context context, List<Location> locationList) {
-        this.mContext = context;
+    public LocationAdapter(List<Location> locationList) {
         this.locationList = locationList;
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -39,24 +39,23 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        final Context mContext = holder.itemView.getContext();
+
         final Location location = locationList.get(position);
-        holder.name_tv.setText(location.getName());
-        holder.description_tv.setText(location.getDescription());
+        holder.nameTv.setText(location.getName());
+        holder.descriptionTv.setText(location.getDescription());
 
-        holder.see_details_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                locationFragment = new LocationsFragment();
+        holder.seeDetailsBtn.setOnClickListener(view -> {
+            locationFragment = new LocationsFragment();
 
-                FragmentManager fragmentManager =
-                        ((AppCompatActivity) mContext).getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.fragment_main_container, locationFragment)
-                        .addToBackStack(null)
-                        .commit();
-                fragmentManager.executePendingTransactions();
-                locationFragment.showLocation(location);
-            }
+            FragmentManager fragmentManager =
+                    ((AppCompatActivity) mContext).getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_main_container, locationFragment)
+                    .addToBackStack(null)
+                    .commit();
+            fragmentManager.executePendingTransactions();
+            locationFragment.showLocation(location);
         });
     }
 
@@ -65,19 +64,23 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         return locationList.size();
     }
 
+    public void updateLocation(final List<Location> locations) {
+        this.locationList = locations;
+        notifyDataSetChanged();
+    }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView name_tv;
-        public TextView description_tv;
-        public Button see_details_btn;
+        private TextView nameTv;
+        private TextView descriptionTv;
+        private Button seeDetailsBtn;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            name_tv = itemView.findViewById(R.id.row_view_location_name_tv);
-            description_tv = itemView.findViewById(R.id.row_view_location_description_tv);
+            nameTv = itemView.findViewById(R.id.row_view_location_name_tv);
+            descriptionTv = itemView.findViewById(R.id.row_view_location_description_tv);
 
-            see_details_btn = itemView.findViewById(R.id.row_location_see_details_btn);
+            seeDetailsBtn = itemView.findViewById(R.id.row_location_see_details_btn);
         }
     }
 }

@@ -41,7 +41,7 @@ public class ProfileFragment extends Fragment {
 
         String welcome = getString(R.string.welcome) + displayName;
 
-        String phone = getString(R.string.userPhoneLabel) + sharedPrefsHelper.loadPhone();
+        String phone = getString(R.string.user_phone_label) + sharedPrefsHelper.loadPhone();
 
         nameTextView.setText(welcome);
         phoneTextView.setText(phone);

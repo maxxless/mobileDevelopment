@@ -2,8 +2,6 @@ package com.leshchyshyn.mobileapp.main_group.image;
 
 import android.content.Context;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import com.leshchyshyn.mobileapp.api.ApiService;
@@ -15,6 +13,7 @@ import com.leshchyshyn.mobileapp.utils.InternetConnection;
 import com.leshchyshyn.mobileapp.utils.JSONParser;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,13 +26,15 @@ public class ImagePresenter implements IImagePresenter {
     private IImageView imageView;
     private Context context;
 
-    private RecyclerView.Adapter adapter;
+    private ImageAdapter adapter;
     private ImageRepository imageRepository;
     private String responseBody;
 
     public ImagePresenter(IImageView imageView, Context context) {
         this.imageView = imageView;
         this.context = context;
+        this.adapter = new ImageAdapter(new ArrayList<>());
+        this.imageView.setAdapter(adapter);
     }
 
     public void loadData() {
@@ -72,7 +73,7 @@ public class ImagePresenter implements IImagePresenter {
                 }
             });
         } else {
-            imageView.showNotInternetConnection();
+            imageView.showNotInternetConnection(context);
             imageView.setEnabledSearch(false);
             imageView.hideRefreshing();
         }
@@ -80,14 +81,13 @@ public class ImagePresenter implements IImagePresenter {
 
     @Override
     public void setList() {
-        adapter = new ImageAdapter(imageRepository.getList());
-        imageView.setAdapter(adapter);
+        adapter.updateImages(imageRepository.getList());
     }
 
     @Override
     public void searchImageByTitle(final String title) {
         if (imageRepository.getByName(title) == null) {
-            imageView.showNotFound();
+            imageView.showNotFound(context);
         } else {
             adapter = new ImageAdapter(
                     imageRepository.getByName(title));

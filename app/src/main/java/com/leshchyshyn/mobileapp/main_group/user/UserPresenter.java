@@ -2,8 +2,6 @@ package com.leshchyshyn.mobileapp.main_group.user;
 
 import android.content.Context;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import com.leshchyshyn.mobileapp.api.ApiService;
@@ -15,6 +13,7 @@ import com.leshchyshyn.mobileapp.utils.InternetConnection;
 import com.leshchyshyn.mobileapp.utils.JSONParser;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,11 +28,13 @@ public class UserPresenter implements IUserPresenter {
 
     private String responseBody;
     private UserRepository userRepository;
-    private RecyclerView.Adapter adapter;
+    private UserAdapter adapter;
 
     public UserPresenter(IUserView userView, Context context) {
         this.userView = userView;
         this.mContext = context;
+        this.adapter = new UserAdapter(new ArrayList<>());
+        this.userView.setAdapter(adapter);
     }
 
     @Override
@@ -74,7 +75,7 @@ public class UserPresenter implements IUserPresenter {
                 }
             });
         } else {
-            userView.showNotInternetConnection();
+            userView.showNotInternetConnection(mContext);
             userView.setEnabledSearch(false);
             userView.hideProgress();
             userView.hideRefreshing();
@@ -83,14 +84,13 @@ public class UserPresenter implements IUserPresenter {
 
     @Override
     public void setList() {
-        adapter = new UserAdapter(userRepository.getList());
-        userView.setAdapter(adapter);
+        adapter.updateUsers(userRepository.getList());
     }
 
     @Override
     public void searchUserByName(String name) {
-        if (name.matches("") || userRepository.getByName(name) == null) {
-            userView.showNotFound();
+        if (name.isEmpty() || userRepository.getByName(name) == null) {
+            userView.showNotFound(mContext);
         } else {
             adapter = new UserAdapter(userRepository.getByName(name));
             userView.setAdapter(adapter);

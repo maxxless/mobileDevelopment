@@ -2,8 +2,6 @@ package com.leshchyshyn.mobileapp.main_group.locations;
 
 import android.content.Context;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import com.leshchyshyn.mobileapp.api.ApiService;
@@ -16,6 +14,7 @@ import com.leshchyshyn.mobileapp.utils.InternetConnection;
 import com.leshchyshyn.mobileapp.utils.JSONParser;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,12 +28,15 @@ public class LocationPresenter implements ILocationPresenter {
 
     private ILocationView locationView;
     private Context mContext;
+    private LocationAdapter adapter;
     private String responseBody;
     private LocationRepository locationRepository;
 
     public LocationPresenter(ILocationView iLocationView, Context mContext) {
         this.locationView = iLocationView;
         this.mContext = mContext;
+        this.adapter = new LocationAdapter(new ArrayList<>());
+        this.locationView.setAdapter(adapter);
     }
 
     @Override
@@ -75,21 +77,20 @@ public class LocationPresenter implements ILocationPresenter {
                 }
             });
         } else
-            locationView.showNotInternetConnection();
+            locationView.showNotInternetConnection(mContext);
         locationView.setEnabledSearch(false);
         locationView.hideRefreshing();
     }
 
     @Override
     public void setList() {
-        RecyclerView.Adapter adapter = new LocationAdapter(mContext, locationRepository.getList());
-        locationView.setAdapter(adapter);
+        adapter.updateLocation(locationRepository.getList());
     }
 
     @Override
     public void searchLocationById(String id) {
-        if (id.matches("") || locationRepository.getById(parseInt(id)) == null) {
-            locationView.showNotFound();
+        if (id.isEmpty() || locationRepository.getById(parseInt(id)) == null) {
+            locationView.showNotFound(mContext);
         } else {
             locationView.showLocation(locationRepository.getById(parseInt(id)));
         }

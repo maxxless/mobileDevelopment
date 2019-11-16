@@ -7,61 +7,50 @@ public class Image {
 
     @SerializedName("albumId")
     @Expose
-    private int albumId;
+    private final int albumId;
 
     @SerializedName("id")
     @Expose
-    private int id;
+    private final int id;
 
     @SerializedName("title")
     @Expose
-    private String title;
+    private final String title;
 
     @SerializedName("url")
     @Expose
-    private String url;
+    private final String url;
 
     @SerializedName("thumbnailUrl")
     @Expose
-    private String thumbnailUrl;
+    private final String thumbnailUrl;
+
+    public Image(final int albumId, final int id, final String title, final String url,
+                 final String thumbnailUrl) {
+        this.albumId = albumId;
+        this.id = id;
+        this.title = title;
+        this.url = url;
+        this.thumbnailUrl = thumbnailUrl;
+    }
 
     public int getAlbumId() {
         return albumId;
-    }
-
-    public void setAlbumId(int albumId) {
-        this.albumId = albumId;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public String getThumbnailUrl() {
         return thumbnailUrl;
-    }
-
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
     }
 }

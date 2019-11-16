@@ -9,31 +9,42 @@ public class User {
 
     @SerializedName("userId")
     @Expose
-    private int id;
+    private final int id;
 
     @SerializedName("userFirstName")
     @Expose
-    private String firstName;
+    private final String firstName;
 
     @SerializedName("userLastName")
     @Expose
-    private String lastName;
+    private final String lastName;
 
     @SerializedName("userEmail")
     @Expose
-    private String email;
+    private final String email;
 
     @SerializedName("userFares")
     @Expose
-    private Set<Fare> fares;
+    private final Set<Fare> fares;
 
     @SerializedName("createdAt")
     @Expose
-    private String createdAt;
+    private final String createdAt;
 
     @SerializedName("updatedAt")
     @Expose
-    private String updatedAt;
+    private final String updatedAt;
+
+    public User(final int id, final String firstName, final String lastName, final String email,
+                final Set<Fare> fares, final String createdAt, final String updatedAt) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.fares = fares;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
     public int getId() {
         return id;

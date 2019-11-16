@@ -2,7 +2,6 @@ package com.leshchyshyn.mobileapp.main_group.cars;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -52,12 +50,7 @@ public class CarsFragment extends Fragment implements ICarsView, View.OnClickLis
 
         carsPresenter.loadData();
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                carsPresenter.loadData();
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(() -> carsPresenter.loadData());
 
         return view;
     }
@@ -81,26 +74,19 @@ public class CarsFragment extends Fragment implements ICarsView, View.OnClickLis
     }
 
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.car_search_fab: {
-                final EditText idEdit = new EditText(mContext);
-                idEdit.setInputType(InputType.TYPE_CLASS_NUMBER);
-                AlertDialog dialog = new AlertDialog.Builder(mContext)
-                        .setTitle(R.string.searchCar)
-                        .setMessage(R.string.searchCarMessage)
-                        .setView(idEdit)
-                        .setPositiveButton(R.string.searchLabel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                String id = idEdit.getText().toString();
-                                carsPresenter.findCarByName(id);
-                            }
-                        })
-                        .setNegativeButton(R.string.close, null)
-                        .create();
-                dialog.show();
-                break;
-            }
+        if (view.getId() == R.id.car_search_fab) {
+            final EditText editText = new EditText(mContext);
+            AlertDialog dialog = new AlertDialog.Builder(mContext)
+                    .setTitle(R.string.search_car)
+                    .setMessage(R.string.search_car_message)
+                    .setView(editText)
+                    .setPositiveButton(R.string.search_label, (dialogInterface, i) -> {
+                        String id = editText.getText().toString();
+                        carsPresenter.findCarByName(id);
+                    })
+                    .setNegativeButton(R.string.close, null)
+                    .create();
+            dialog.show();
         }
     }
 
@@ -125,28 +111,18 @@ public class CarsFragment extends Fragment implements ICarsView, View.OnClickLis
 
     @Override
     public void showProgress() {
-        showProgressLoaderWithBackground(true, mContext.getString(R.string.loadData));
+        showProgressLoaderWithBackground(true, mContext.getString(R.string.load_data));
     }
 
     @Override
     public void hideProgress() {
-        showProgressLoaderWithBackground(false, mContext.getString(R.string.loadData));
+        showProgressLoaderWithBackground(false, mContext.getString(R.string.load_data));
     }
 
     @Override
     public void hideRefreshing() {
         if (swipeRefreshLayout != null)
             swipeRefreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void showNotFound() {
-        Toast.makeText(mContext, R.string.notFound, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showNotInternetConnection() {
-        Toast.makeText(mContext, R.string.noInternet, Toast.LENGTH_SHORT).show();
     }
 
     @Override

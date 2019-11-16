@@ -42,10 +42,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         return userList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView firstNameTv;
-        public TextView lastNameTv;
-        public TextView emailTv;
+    public void updateUsers(final List<User> users) {
+        this.userList = users;
+        notifyDataSetChanged();
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView firstNameTv;
+        private TextView lastNameTv;
+        private TextView emailTv;
 
         public ViewHolder(View itemView) {
             super(itemView);

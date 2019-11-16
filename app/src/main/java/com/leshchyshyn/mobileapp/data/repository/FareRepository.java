@@ -21,6 +21,7 @@ public class FareRepository implements IRepository {
                 fares.add(a);
             }
         }
+
         return fares;
     }
 

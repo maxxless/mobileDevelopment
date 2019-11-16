@@ -2,16 +2,13 @@ package com.leshchyshyn.mobileapp.main_group.image;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -48,12 +45,7 @@ public class ImageFragment extends Fragment implements IImageView, View.OnClickL
 
         imagePresenter.loadData();
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                imagePresenter.loadData();
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(() -> imagePresenter.loadData());
 
         return view;
     }
@@ -96,52 +88,36 @@ public class ImageFragment extends Fragment implements IImageView, View.OnClickL
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.photo_search_fab: {
-                final EditText titleEdit = new EditText(mContext);
-                AlertDialog dialog = new AlertDialog.Builder(mContext)
-                        .setTitle(R.string.searchImage)
-                        .setMessage(R.string.searchImageMessage)
-                        .setView(titleEdit)
-                        .setPositiveButton(R.string.searchLabel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                String title = String.valueOf(titleEdit.getText());
-                                imagePresenter.searchImageByTitle(title);
-                            }
-                        })
-                        .setNegativeButton(R.string.close, null)
-                        .create();
-                dialog.show();
-                break;
-            }
+        if (view.getId() == R.id.photo_search_fab) {
+            final EditText titleEdit = new EditText(mContext);
+            AlertDialog dialog = new AlertDialog.Builder(mContext)
+                    .setTitle(R.string.search_image)
+                    .setMessage(R.string.search_image_message)
+                    .setView(titleEdit)
+                    .setPositiveButton(R.string.search_label, (dialogInterface, i) -> {
+                        String title = String.valueOf(titleEdit.getText());
+                        imagePresenter.searchImageByTitle(title);
+                    })
+                    .setNegativeButton(R.string.close, null)
+                    .create();
+            dialog.show();
         }
     }
 
     @Override
     public void showProgress() {
-        showProgressLoaderWithBackground(true, mContext.getString(R.string.loadData));
+        showProgressLoaderWithBackground(true, mContext.getString(R.string.load_data));
     }
 
     @Override
     public void hideProgress() {
-        showProgressLoaderWithBackground(false, mContext.getString(R.string.loadData));
+        showProgressLoaderWithBackground(false, mContext.getString(R.string.load_data));
     }
 
     @Override
     public void hideRefreshing() {
         if (swipeRefreshLayout != null)
             swipeRefreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void showNotFound() {
-        Toast.makeText(mContext, R.string.notFound, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showNotInternetConnection() {
-        Toast.makeText(mContext, R.string.noInternet, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -153,5 +129,4 @@ public class ImageFragment extends Fragment implements IImageView, View.OnClickL
     public void setEnabledSearch(boolean enabled) {
         searchFab.setEnabled(enabled);
     }
-
 }

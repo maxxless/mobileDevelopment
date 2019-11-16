@@ -7,27 +7,37 @@ public class Fare {
 
     @SerializedName("fareId")
     @Expose
-    private int id;
+    private final int id;
 
     @SerializedName("fareUuid")
     @Expose
-    private String uuid;
+    private final String uuid;
 
     @SerializedName("fareStatus")
     @Expose
-    private String status;
+    private final String status;
 
     @SerializedName("fareUser")
     @Expose
-    private User user;
+    private final User user;
 
     @SerializedName("createdAt")
     @Expose
-    private String createdAt;
+    private final String createdAt;
 
     @SerializedName("updatedAt")
     @Expose
-    private String updatedAt;
+    private final String updatedAt;
+
+    public Fare(final int id, final String uuid, final String status, final User user,
+                final String createdAt, final String updatedAt) {
+        this.id = id;
+        this.uuid = uuid;
+        this.status = status;
+        this.user = user;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
     public int getId() {
         return id;

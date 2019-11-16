@@ -2,8 +2,6 @@ package com.leshchyshyn.mobileapp.main_group.fare;
 
 import android.content.Context;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import com.leshchyshyn.mobileapp.api.ApiService;
@@ -15,6 +13,7 @@ import com.leshchyshyn.mobileapp.utils.InternetConnection;
 import com.leshchyshyn.mobileapp.utils.JSONParser;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,13 +26,15 @@ public class FarePresenter implements IFarePresenter {
     private IFareView fareView;
     private Context context;
 
-    private RecyclerView.Adapter adapter;
+    private FareAdapter adapter;
     private FareRepository fareRepository;
     private String responseBody;
 
     public FarePresenter(IFareView fareView, Context context) {
         this.fareView = fareView;
         this.context = context;
+        this.adapter = new FareAdapter(new ArrayList<>());
+        this.fareView.setAdapter(adapter);
     }
 
     @Override
@@ -74,7 +75,7 @@ public class FarePresenter implements IFarePresenter {
                 }
             });
         } else {
-            fareView.showNotInternetConnection();
+            fareView.showNotInternetConnection(context);
             fareView.setEnabledSearch(false);
             fareView.hideProgress();
             fareView.hideRefreshing();
@@ -83,14 +84,13 @@ public class FarePresenter implements IFarePresenter {
 
     @Override
     public void setList() {
-        adapter = new FareAdapter(fareRepository.getList());
-        fareView.setAdapter(adapter);
+        adapter.updateFares(fareRepository.getList());
     }
 
     @Override
     public void searchFareByUuid(final String title) {
         if (fareRepository.getByUuid(title) == null) {
-            fareView.showNotFound();
+            fareView.showNotFound(context);
         } else {
             adapter = new FareAdapter(
                     fareRepository.getByUuid(title));

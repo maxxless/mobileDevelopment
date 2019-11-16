@@ -2,7 +2,6 @@ package com.leshchyshyn.mobileapp.main_group.fare;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -97,52 +95,36 @@ public class FareFragment extends Fragment implements IFareView, View.OnClickLis
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.fare_search_fab: {
-                final EditText titleEdit = new EditText(mContext);
-                AlertDialog dialog = new AlertDialog.Builder(mContext)
-                        .setTitle(R.string.searchFare)
-                        .setMessage(R.string.searchFareMessage)
-                        .setView(titleEdit)
-                        .setPositiveButton(R.string.searchLabel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                String title = String.valueOf(titleEdit.getText());
-                                farePresenter.searchFareByUuid(title);
-                            }
-                        })
-                        .setNegativeButton(R.string.close, null)
-                        .create();
-                dialog.show();
-                break;
-            }
+        if (view.getId() == R.id.fare_search_fab) {
+            final EditText titleEdit = new EditText(mContext);
+            AlertDialog dialog = new AlertDialog.Builder(mContext)
+                    .setTitle(R.string.search_fare)
+                    .setMessage(R.string.search_fare_message)
+                    .setView(titleEdit)
+                    .setPositiveButton(R.string.search_label, (dialogInterface, i) -> {
+                        String title = String.valueOf(titleEdit.getText());
+                        farePresenter.searchFareByUuid(title);
+                    })
+                    .setNegativeButton(R.string.close, null)
+                    .create();
+            dialog.show();
         }
     }
 
     @Override
     public void showProgress() {
-        showProgressLoaderWithBackground(true, mContext.getString(R.string.loadData));
+        showProgressLoaderWithBackground(true, mContext.getString(R.string.load_data));
     }
 
     @Override
     public void hideProgress() {
-        showProgressLoaderWithBackground(false, mContext.getString(R.string.loadData));
+        showProgressLoaderWithBackground(false, mContext.getString(R.string.load_data));
     }
 
     @Override
     public void hideRefreshing() {
         if (swipeRefreshLayout != null)
             swipeRefreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void showNotFound() {
-        Toast.makeText(mContext, R.string.notFound, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showNotInternetConnection() {
-        Toast.makeText(mContext, R.string.noInternet, Toast.LENGTH_SHORT).show();
     }
 
     @Override

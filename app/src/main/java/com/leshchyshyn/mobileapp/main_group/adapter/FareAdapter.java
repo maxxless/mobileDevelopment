@@ -33,11 +33,11 @@ public class FareAdapter extends RecyclerView.Adapter<FareAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Fare fare = fareList.get(position);
-        holder.textViewUuid.setText(fare.getUuid());
-        holder.textViewStatus.setText(fare.getStatus());
-        holder.textViewUser.setText(fare.getUser().getEmail());
-        holder.textViewCreatedAt.setText(fare.getCreatedAt());
-        holder.textViewUpdatedAt.setText(fare.getUpdatedAt());
+        holder.uuidTv.setText(fare.getUuid());
+        holder.statusTv.setText(fare.getStatus());
+        holder.userTv.setText(fare.getUser().getEmail());
+        holder.createdAtTv.setText(fare.getCreatedAt());
+        holder.updatedAtTv.setText(fare.getUpdatedAt());
     }
 
     @Override
@@ -45,22 +45,26 @@ public class FareAdapter extends RecyclerView.Adapter<FareAdapter.ViewHolder> {
         return fareList.size();
     }
 
+    public void updateFares(final List<Fare> fares) {
+        this.fareList = fares;
+        notifyDataSetChanged();
+    }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView textViewUuid;
-        public TextView textViewStatus;
-        public TextView textViewUser;
-        public TextView textViewCreatedAt;
-        public TextView textViewUpdatedAt;
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView uuidTv;
+        private TextView statusTv;
+        private TextView userTv;
+        private TextView createdAtTv;
+        private TextView updatedAtTv;
 
-        public ViewHolder(View view) {
+        private ViewHolder(View view) {
             super(view);
 
-            textViewUuid = view.findViewById(R.id.fare_uuid_tv);
-            textViewStatus = view.findViewById(R.id.fare_status_tv);
-            textViewUser = view.findViewById(R.id.fare_user_tv);
-            textViewCreatedAt = view.findViewById(R.id.fare_created_tv);
-            textViewUpdatedAt = view.findViewById(R.id.fare_updated_tv);
+            uuidTv = view.findViewById(R.id.fare_uuid_tv);
+            statusTv = view.findViewById(R.id.fare_status_tv);
+            userTv = view.findViewById(R.id.fare_user_tv);
+            createdAtTv = view.findViewById(R.id.fare_created_tv);
+            updatedAtTv = view.findViewById(R.id.fare_updated_tv);
         }
     }
 }
