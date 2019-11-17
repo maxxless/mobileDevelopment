@@ -30,15 +30,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/round_white_rectungle">
+            android:background="@drawable/round_white_rectangle">
 
             <ImageView
                 android:src="@drawable/ic_user"
                 android:layout_margin="10dp"
                 android:layout_width="24dp"
-                android:layout_height="24dp" />
+                android:layout_height="24dp"
+                android:contentDescription="@string/users" />
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/username_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,15 +60,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/round_white_rectungle">
+            android:background="@drawable/round_white_rectangle">
 
             <ImageView
                 android:src="@drawable/ic_email_black_24dp"
                 android:layout_margin="10dp"
                 android:layout_width="24dp"
-                android:layout_height="24dp" />
+                android:layout_height="24dp"
+                android:contentDescription="@string/email" />
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -86,7 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/round_white_rectungle">
+            android:background="@drawable/round_white_rectangle">
 
             <ImageView
                 android:src="@drawable/ic_call"
@@ -94,7 +96,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp" />
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/phone_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -115,15 +117,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/round_white_rectungle">
+            android:background="@drawable/round_white_rectangle">
 
             <ImageView
                 android:src="@drawable/ic_lock"
                 android:layout_margin="10dp"
                 android:layout_width="24dp"
-                android:layout_height="24dp" />
+                android:layout_height="24dp"
+                android:contentDescription="@string/pass" />
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -142,16 +145,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/round_white_rectungle"
+            android:background="@drawable/round_white_rectangle"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_margin="10dp"
-                android:src="@drawable/ic_lock" />
+                android:src="@drawable/ic_lock"
+                android:contentDescription="@string/confirm_pass" />
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/confirm_password_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

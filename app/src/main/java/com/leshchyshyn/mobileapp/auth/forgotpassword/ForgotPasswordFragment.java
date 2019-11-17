@@ -72,11 +72,11 @@ public class ForgotPasswordFragment extends Fragment
 
     @Override
     public void recoveryCodeIsSent() {
-        Toast.makeText(getActivity(), R.string.recoveryCodeIsSent, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.recovery_code_is_sent, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showEmailError() {
-        emailEt.setError(getString(R.string.invalidEmail));
+        emailEt.setError(getString(R.string.invalid_email));
     }
 }

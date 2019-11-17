@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.leshchyshyn.mobileapp.MainActivity;
 import com.leshchyshyn.mobileapp.R;
+import com.leshchyshyn.mobileapp.main_group.MainActivity;
 import com.leshchyshyn.mobileapp.utils.Utils;
 import com.leshchyshyn.mobileapp.auth.forgotpassword.ForgotPasswordFragment;
 import com.leshchyshyn.mobileapp.auth.signin.SignInFragment;

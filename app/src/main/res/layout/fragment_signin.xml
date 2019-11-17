@@ -29,16 +29,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:background="@drawable/round_white_rectungle"
+            android:background="@drawable/round_white_rectangle"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_margin="10dp"
-                android:src="@drawable/ic_user" />
+                android:src="@drawable/ic_user"
+                android:contentDescription="@string/users" />
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/username_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -58,16 +59,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/round_white_rectungle"
+            android:background="@drawable/round_white_rectangle"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_margin="10dp"
-                android:src="@drawable/ic_lock" />
+                android:src="@drawable/ic_lock"
+                android:contentDescription="@string/pass" />
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

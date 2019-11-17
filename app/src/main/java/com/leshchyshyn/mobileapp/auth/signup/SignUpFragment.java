@@ -86,27 +86,27 @@ public class SignUpFragment extends Fragment implements SignUpContract.ISignUpVi
 
     @Override
     public void showUsernameError() {
-        usernameEt.setError(getString(R.string.invalidUsername));
+        usernameEt.setError(getString(R.string.invalid_username));
     }
 
     @Override
     public void showEmailError() {
-        emailEt.setError(getString(R.string.invalidEmail));
+        emailEt.setError(getString(R.string.invalid_email));
     }
 
     @Override
     public void showPhoneError() {
-        phoneEt.setError(getString(R.string.invalidPhone));
+        phoneEt.setError(getString(R.string.invalid_phone));
     }
 
     @Override
     public void showPasswordError() {
-        passwordEt.setError(getString(R.string.invalidPassword));
+        passwordEt.setError(getString(R.string.invalid_password));
     }
 
     @Override
     public void showConfirmPasswordError() {
-        confirmPasswordEt.setError(getString(R.string.differentPasswordFields));
+        confirmPasswordEt.setError(getString(R.string.different_password_fields));
     }
 }
 

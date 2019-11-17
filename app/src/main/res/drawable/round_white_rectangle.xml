@@ -16,7 +16,7 @@
         <shape
             android:shape="rectangle"
             android:padding="5dp">
-            <solid android:color="@color/white"/> <!-- this one is ths color of the Rounded Button -->
+            <solid android:color="@color/white"/>
             <corners
                 android:bottomRightRadius="5dp"
                 android:bottomLeftRadius="5dp"

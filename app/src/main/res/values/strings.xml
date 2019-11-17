@@ -30,48 +30,83 @@
     <string name="confirm_pass">Confirm Password</string>
 
     // Validation Errors
-    <string name="invalidEmail">Please enter valid email</string>
-    <string name="invalidPassword">Please enter valid password</string>
-    <string name="invalidUsername">Please enter valid username</string>
-    <string name="invalidPhone">Please enter valid phone</string>
-    <string name="differentPasswordFields">Passwords should match</string>
+    <string name="invalid_email">Please enter valid email</string>
+    <string name="invalid_password">Please enter valid password</string>
+    <string name="invalid_username">Please enter valid username</string>
+    <string name="invalid_phone">Please enter valid phone</string>
+    <string name="different_password_fields">Passwords should match</string>
 
     // Main Activity Text
     <string name="welcome">Welcome,</string>
-    <string name="userPhoneLabel">Your phone: </string>
+    <string name="user_phone_label">Your phone: </string>
 
     // Default String for Shared Preferences
     <string name="unavailable">Unavailable</string>
 
-
-    // Toasts
-
     // Login
-    <string name="signInSuccess">Signed in successfully</string>
-    <string name="signInFailure">Sign in failed</string>
+    <string name="sign_in_success">Signed in successfully</string>
+    <string name="sign_in_failure">Sign in failed</string>
 
     // Registration
-    <string name="signUpSuccess">Signed up successfully</string>
-    <string name="signUpFailure">Sign up failed</string>
+    <string name="sign_up_success">Signed up successfully</string>
+    <string name="sign_up_failure">Sign up failed</string>
 
     // Forget Password
-    <string name="recoveryCodeIsSent">You will receive recovery code soon!</string>
+    <string name="recovery_code_is_sent">You will receive recovery code soon!</string>
 
     // Updating username
-    <string name="addingNameSuccess">Username successfully added</string>
-    <string name="addingNameFailure">Username was not added</string>
+    <string name="adding_name_success">Username successfully added</string>
+    <string name="adding_name_failure">Username was not added</string>
 
     // Email sending confirmation
-    <string name="emailIsSent">Email was sent successfully</string>
-    <string name="emailSendingError">Email was not sent: error</string>
+    <string name="email_is_sent">Email was sent successfully</string>
+    <string name="email_sending_error">Email was not sent: error</string>
 
     // Facebook
-    <string name="fbLoginCancel">User cancelled Facebook login</string>
-    <string name="firebaseAuthSuccess">Authentication is successful.(Firebase)</string>
-    <string name="firebaseAuthFailure">Authentication failed.(Firebase)</string>
+    <string name="fb_login_cancel">User cancelled Facebook login</string>
+    <string name="firebase_auth_success">Authentication is successful.(Firebase)</string>
+    <string name="firebase_auth_failure">Authentication failed.(Firebase)</string>
 
     // Google
-    <string name="googleAuthSuccess">Google authentication is successful</string>
-    <string name="googleAuthFailure">Google authentication failed(Firebase part)</string>
-    <string name="googleInternalAuthFailure">Google authentication failed(Google part)</string>
+    <string name="google_auth_success">Google authentication is successful</string>
+    <string name="google_auth_failure">Google authentication failed(Firebase part)</string>
+    <string name="google_internal_auth_failure">Google authentication failed(Google part)</string>
+
+    // About
+    <string name="author">Max Leshchyshyn</string>
+    <string name="app_description">App description</string>
+
+    // Buttons
+    <string name="see_details">See details</string>
+
+    // Navigation Menu
+    <string name="profile">Profile</string>
+    <string name="users">Users</string>
+    <string name="cars">Cars</string>
+    <string name="locations">Locations</string>
+    <string name="fares">Fares</string>
+    <string name="images">Images</string>
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+    <string name="logOut">Log Out</string>
+
+    // Search
+    <string name="search_label">Search</string>
+    <string name="search_car">Search car</string>
+    <string name="search_car_message">Enter the name of the car</string>
+    <string name="search_image">Search Image</string>
+    <string name="search_image_message">Enter the title of the image</string>
+    <string name="search_user">Search User</string>
+    <string name="search_user_message">Enter the name of the user</string>
+    <string name="search_fare">Search Fare</string>
+    <string name="search_fare_message">Enter a UUID of the fare</string>
+
+    // Other
+    <string name="no_internet">No Internet connection</string>
+    <string name="not_found">Not Found</string>
+    <string name="load_data">Loading data</string>
+    <string name="saved">Saved!</string>
+
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>
