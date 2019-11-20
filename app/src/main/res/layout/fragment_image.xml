@@ -9,13 +9,13 @@
     android:layout_margin="5dp">
 
     <LinearLayout
-        android:id="@+id/full_car_first_layout"
+        android:id="@+id/full_img_first_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/full_car_name_tv"
+            android:id="@+id/full_img_title_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -23,8 +23,15 @@
             android:text=""
             />
 
+        <ImageView
+            android:id="@+id/full_image_iv"
+            android:layout_margin="5dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/images" />
+
         <TextView
-            android:id="@+id/full_car_id_tv"
+            android:id="@+id/full_img_id_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -35,37 +42,10 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/full_post_second_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/full_car_type_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center_horizontal"
-            android:textAlignment="center"
-            android:textSize="25sp"
-            android:text=""
-            />
-
-        <TextView
-            android:id="@+id/full_car_colour_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="17sp"
-            android:text=""/>
-
-    </LinearLayout>
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/car_rv"
+        android:id="@+id/image_rv"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:listitem="@layout/row_view_car"
+        tools:listitem="@layout/row_view_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

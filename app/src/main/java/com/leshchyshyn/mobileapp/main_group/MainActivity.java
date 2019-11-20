@@ -20,7 +20,7 @@ import com.leshchyshyn.mobileapp.auth.Auth;
 import com.leshchyshyn.mobileapp.auth.AuthenticationActivity;
 import com.leshchyshyn.mobileapp.main_group.about.AboutFragment;
 import com.leshchyshyn.mobileapp.main_group.fare.FareFragment;
-import com.leshchyshyn.mobileapp.main_group.image.ImageFragment;
+import com.leshchyshyn.mobileapp.main_group.images.ImagesFragment;
 import com.leshchyshyn.mobileapp.main_group.cars.CarsFragment;
 import com.leshchyshyn.mobileapp.main_group.locations.LocationsFragment;
 import com.leshchyshyn.mobileapp.main_group.profile.ProfileFragment;
@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        replaceFragment(new LocationsFragment());
-        getSupportActionBar().setTitle("Profile");
+        replaceFragment(new ProfileFragment());
+        getSupportActionBar().setTitle(R.string.profile);
     }
 
     public void replaceFragment(Fragment fragment) {
@@ -66,13 +66,6 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.fragment_main_container, fragment)
                 .addToBackStack(null)
-                .commit();
-    }
-
-    public void addFragment(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.fragment_main_container, fragment)
                 .commit();
     }
 
@@ -107,7 +100,7 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_images:
-                replaceFragment(new ImageFragment());
+                replaceFragment(new ImagesFragment());
                 Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.images);
                 break;
 

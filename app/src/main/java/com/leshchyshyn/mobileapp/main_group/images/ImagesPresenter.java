@@ -1,4 +1,4 @@
-package com.leshchyshyn.mobileapp.main_group.image;
+package com.leshchyshyn.mobileapp.main_group.images;
 
 import android.content.Context;
 
@@ -21,16 +21,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ImagePresenter implements IImagePresenter {
+public class ImagesPresenter implements IImagesPresenter {
 
-    private IImageView imageView;
+    private IImagesView imageView;
     private Context context;
 
     private ImageAdapter adapter;
     private ImageRepository imageRepository;
     private String responseBody;
 
-    public ImagePresenter(IImageView imageView, Context context) {
+    public ImagesPresenter(IImagesView imageView, Context context) {
         this.imageView = imageView;
         this.context = context;
         this.adapter = new ImageAdapter(new ArrayList<>());
