@@ -10,5 +10,6 @@
         android:id="@+id/image_iv"
         android:layout_margin="5dp"
         android:layout_width="100dp"
-        android:layout_height="100dp" />
+        android:layout_height="100dp"
+        android:contentDescription="@string/images" />
 </androidx.cardview.widget.CardView>

@@ -1,4 +1,4 @@
-package com.leshchyshyn.mobileapp.main_group.image;
+package com.leshchyshyn.mobileapp.main_group.images;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,16 +12,19 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.leshchyshyn.mobileapp.R;
+import com.leshchyshyn.mobileapp.data.model.Image;
+import com.leshchyshyn.mobileapp.main_group.image.ImageWithDetailsFragment;
 
 import java.util.Objects;
 
-public class ImageFragment extends Fragment implements IImageView, View.OnClickListener {
+public class ImagesFragment extends Fragment implements IImagesView, View.OnClickListener {
 
     private View view;
     private Context mContext;
@@ -29,7 +32,7 @@ public class ImageFragment extends Fragment implements IImageView, View.OnClickL
     private FloatingActionButton searchFab;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private ImagePresenter imagePresenter;
+    private ImagesPresenter imagesPresenter;
 
     @Nullable
     @Override
@@ -43,9 +46,9 @@ public class ImageFragment extends Fragment implements IImageView, View.OnClickL
         initPresenter();
         initListener();
 
-        imagePresenter.loadData();
+        imagesPresenter.loadData();
 
-        swipeRefreshLayout.setOnRefreshListener(() -> imagePresenter.loadData());
+        swipeRefreshLayout.setOnRefreshListener(() -> imagesPresenter.loadData());
 
         return view;
     }
@@ -60,7 +63,7 @@ public class ImageFragment extends Fragment implements IImageView, View.OnClickL
     }
 
     private void initPresenter() {
-        imagePresenter = new ImagePresenter(this, mContext);
+        imagesPresenter = new ImagesPresenter(this, mContext);
     }
 
     private void initListener() {
@@ -96,7 +99,7 @@ public class ImageFragment extends Fragment implements IImageView, View.OnClickL
                     .setView(titleEdit)
                     .setPositiveButton(R.string.search_label, (dialogInterface, i) -> {
                         String title = String.valueOf(titleEdit.getText());
-                        imagePresenter.searchImageByTitle(title);
+                        imagesPresenter.searchImageByTitle(title);
                     })
                     .setNegativeButton(R.string.close, null)
                     .create();
@@ -128,5 +131,16 @@ public class ImageFragment extends Fragment implements IImageView, View.OnClickL
     @Override
     public void setEnabledSearch(boolean enabled) {
         searchFab.setEnabled(enabled);
+    }
+
+    public void showImage(Image image) {
+        ImageWithDetailsFragment imageWithDetailsFragment = new ImageWithDetailsFragment();
+        FragmentManager fragmentManager =
+                Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragment_main_container, imageWithDetailsFragment)
+                .addToBackStack(null)
+                .commit();
+        imageWithDetailsFragment.setImage(image);
     }
 }

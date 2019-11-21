@@ -28,7 +28,7 @@
                 android:layout_height="100dp"
                 android:layout_centerInParent="true"
                 android:background="@mipmap/ic_add_photo"
-                android:contentDescription="@string/users">
+                android:contentDescription="@string/images">
             </ImageView>
         </RelativeLayout>
 
@@ -39,30 +39,11 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginTop="10dp"
             android:background="@mipmap/ic_edit_done"
             android:contentDescription="@string/profile" />
 
-        <EditText
-            android:id="@+id/profile_edit_name_et"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:paddingLeft="10dp"
-            android:textColor="@color/white"
-            android:textSize="30sp" />
-
-        <EditText
-            android:id="@+id/profile_edit_id_et"
-            android:layout_width="60dp"
-            android:layout_height="20dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:paddingRight="20dp"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            android:layout_alignParentRight="true" />
     </RelativeLayout>
 
     <ScrollView
@@ -72,19 +53,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/profile_city_edit_et"
-                android:textSize="17sp"
-                android:paddingTop="15dp"
-                android:layout_gravity="center"
-                android:textAlignment="center"
-                android:layout_width="300dp"
-                android:layout_height="50dp" />
 
             <View
                 android:layout_width="match_parent"
@@ -99,15 +71,59 @@
                 android:paddingTop="15dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_weight="4">
 
                     <EditText
-                        android:id="@+id/profile_mobile_edit_et"
+                        android:id="@+id/profile_edit_name_et"
                         android:layout_width="300dp"
                         android:layout_height="50dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:textColor="@color/white"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:text="@string/username"
+                        android:textSize="15sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/username_edit_done_iv"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@mipmap/ic_account_circle"
+                    android:contentDescription="@string/username" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingTop="15dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="4">
+
+                    <EditText
+                        android:id="@+id/profile_phone_edit_et"
+                        android:layout_width="300dp"
+                        android:layout_height="0dp"
                         android:layout_weight="4"
                         android:textSize="20sp" />
 
@@ -120,6 +136,7 @@
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/phone_edit_done_iv"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:background="@mipmap/ic_phone"
@@ -133,7 +150,6 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/white" />
 
-            <!--Email-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -141,7 +157,7 @@
                 android:paddingTop="15dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_weight="4">
@@ -149,7 +165,7 @@
                     <EditText
                         android:id="@+id/profile_email_edit_et"
                         android:layout_width="300dp"
-                        android:layout_height="50dp"
+                        android:layout_height="0dp"
                         android:layout_weight="4"
                         android:textSize="20sp" />
 
@@ -162,6 +178,7 @@
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/email_edit_done_iv"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:background="@mipmap/ic_email"
@@ -174,13 +191,6 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/white" />
-
-            <EditText
-                android:id="@+id/profile_company_edit_et"
-                android:textSize="17sp"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:paddingTop="20dp"/>
 
         </LinearLayout>
 
