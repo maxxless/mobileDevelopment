@@ -8,27 +8,31 @@ public class Car {
     @Expose
     private final int id;
 
-    @SerializedName("carRegistrationNumber")
+    @SerializedName("registrationNumber")
     @Expose
     private final String registrationNumber;
 
-    @SerializedName("carType")
+    @SerializedName("type")
     @Expose
     private final String type;
 
-    @SerializedName("carColour")
+    @SerializedName("colour")
     @Expose
     private final String colour;
 
-    @SerializedName("carName")
+    @SerializedName("name")
     @Expose
     private final String name;
 
-    @SerializedName("carUser")
+    @SerializedName("imageUrl")
+    @Expose
+    private final String imageUrl;
+
+    @SerializedName("user")
     @Expose
     private final User user;
 
-    @SerializedName("carLocation")
+    @SerializedName("location")
     @Expose
     private final Location location;
 
@@ -40,18 +44,33 @@ public class Car {
     @Expose
     private final String updatedAt;
 
-    public Car(final int id, final String registrationNumber, final String type,
+    public Car(final int id, final String registrationNumber, final String type, String imageUrl,
                final String colour, final String name, final User user, final Location location,
                final String createdAt, final String updatedAt) {
         this.id = id;
         this.registrationNumber = registrationNumber;
         this.type = type;
+        this.imageUrl = imageUrl;
         this.colour = colour;
         this.name = name;
         this.user = user;
         this.location = location;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public Car(final String name, final String registrationNumber, final String colour,
+               final String type, final String imageUrl) {
+        this.id = 0;
+        this.registrationNumber = registrationNumber;
+        this.type = type;
+        this.colour = colour;
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.user = null;
+        this.location = null;
+        this.createdAt = "";
+        this.updatedAt = "";
     }
 
     public int getId() {
@@ -72,6 +91,10 @@ public class Car {
 
     public String getName() {
         return name;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     public User getUser() {

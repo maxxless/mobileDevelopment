@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.leshchyshyn.mobileapp.R;
 import com.leshchyshyn.mobileapp.data.model.Car;
+import com.squareup.picasso.Picasso;
 
 public class CarWithDetailsFragment extends Fragment {
 
@@ -24,6 +26,8 @@ public class CarWithDetailsFragment extends Fragment {
     private TextView fullCarIdTv;
     private TextView fullCarTypeTv;
     private TextView fullCarColourTv;
+
+    private ImageView carImageIv;
 
     @Nullable
     @Override
@@ -50,6 +54,8 @@ public class CarWithDetailsFragment extends Fragment {
         fullCarIdTv = view.findViewById(R.id.full_car_id_tv);
         fullCarTypeTv = view.findViewById(R.id.full_car_type_tv);
         fullCarColourTv = view.findViewById(R.id.full_car_colour_tv);
+
+        carImageIv = view.findViewById(R.id.car_image_iv);
     }
 
     private void setInfoToCar(Car car) {
@@ -57,6 +63,12 @@ public class CarWithDetailsFragment extends Fragment {
         fullCarIdTv.setText(String.valueOf(car.getId()));
         fullCarTypeTv.setText(car.getType());
         fullCarColourTv.setText(car.getColour());
+
+        Picasso.get()
+                .load(car.getImageUrl())
+                .placeholder(R.mipmap.ic_launcher_round)
+                .error(R.mipmap.ic_launcher_round)
+                .into(carImageIv);
     }
 }
 
