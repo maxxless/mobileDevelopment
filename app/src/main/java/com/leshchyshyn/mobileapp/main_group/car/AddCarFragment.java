@@ -37,6 +37,13 @@ import retrofit2.Response;
 import static android.app.Activity.RESULT_OK;
 
 public class AddCarFragment extends Fragment {
+
+    private static final int REQUEST_CODE = 1;
+    private static final String FOLDER_NAME = "folder";
+    private static final String JPG_EXTENSION = ".jpg";
+
+    private ApiService api;
+
     private View view;
     private Context context;
 
@@ -70,7 +77,7 @@ public class AddCarFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1 && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
             Uri imageData = Objects.requireNonNull(data).getData();
             imageReference.putFile(
                     Objects.requireNonNull(imageData))
@@ -90,8 +97,11 @@ public class AddCarFragment extends Fragment {
         addCarBtn = view.findViewById(R.id.add_car_btn);
         closeBtn = view.findViewById(R.id.close_car_btn);
 
-        StorageReference folderReference = FirebaseStorage.getInstance().getReference().child("folder");
-        imageReference = folderReference.child(LocalDateTime.now().toString().trim() + ".jpg");
+        StorageReference folderReference =
+                FirebaseStorage.getInstance().getReference().child(FOLDER_NAME);
+        imageReference =
+                folderReference.child(LocalDateTime.now().toString().trim() + JPG_EXTENSION);
+        api = RetrofitClient.getRetroClient();
     }
 
     private void initListeners() {
@@ -111,7 +121,6 @@ public class AddCarFragment extends Fragment {
         imageReference.getDownloadUrl().addOnSuccessListener(uri -> {
             if (areFieldsValid(name, registrationNumber, type, colour)) {
                 Car car = new Car(name, registrationNumber, colour, type, uri.toString());
-
                 sendData(car);
             } else {
                 showFieldsError();
@@ -122,38 +131,38 @@ public class AddCarFragment extends Fragment {
     private void uploadPicture() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, REQUEST_CODE);
     }
 
     private void placeImage() {
-        imageReference
-                .getDownloadUrl()
-                .addOnSuccessListener(uri ->
-                        Picasso.get().load(uri.toString()).into(carImageIv));
+        imageReference.getDownloadUrl().addOnSuccessListener(
+                uri -> Picasso.get().load(uri.toString()).into(carImageIv));
     }
 
     private void sendData(Car car) {
         if (InternetConnection.checkConnection(context)) {
             showProgress();
 
-            ApiService api = RetrofitClient.getRetroClient();
-
-            Call<Car> call = api.addCar(car);
-            call.enqueue(new Callback<Car>() {
-                @Override
-                public void onResponse(Call<Car> call, Response<Car> response) {
-                    hideProgress();
-                    Objects.requireNonNull(getFragmentManager()).popBackStack();
-                }
-
-                @Override
-                public void onFailure(Call<Car> call, Throwable t) {
-                    hideProgress();
-                }
-            });
+            processCall(car);
         } else {
             showNoInternetConnection();
         }
+    }
+
+    private void processCall(Car car) {
+        Call<Car> call = api.addCar(car);
+        call.enqueue(new Callback<Car>() {
+            @Override
+            public void onResponse(Call<Car> call, Response<Car> response) {
+                hideProgress();
+                Objects.requireNonNull(getFragmentManager()).popBackStack();
+            }
+
+            @Override
+            public void onFailure(Call<Car> call, Throwable t) {
+                hideProgress();
+            }
+        });
     }
 
     private void showProgress() {
@@ -193,26 +202,22 @@ public class AddCarFragment extends Fragment {
 
     private boolean areFieldsValid(final String name, final String registrationNumber,
                                    final String type, final String colour) {
-        boolean isNameValid = !TextUtils.isEmpty(name);
-        boolean isRegNumberValid = !TextUtils.isEmpty(registrationNumber);
-        boolean isTypeValid = !TextUtils.isEmpty(type);
-        boolean isColourValid = !TextUtils.isEmpty(colour);
-
-        if (isNameValid) {
+        if (!TextUtils.isEmpty(name)) {
             nameEt.setError(context.getString(R.string.invalid_field));
         }
 
-        if (isRegNumberValid) {
+        if (!TextUtils.isEmpty(registrationNumber)) {
             nameEt.setError(context.getString(R.string.invalid_field));
         }
 
-        if (isTypeValid) {
+        if (!TextUtils.isEmpty(type)) {
             nameEt.setError(context.getString(R.string.invalid_field));
         }
 
-        if (isColourValid) {
+        if (!TextUtils.isEmpty(colour)) {
             nameEt.setError(context.getString(R.string.invalid_field));
         }
-        return isNameValid && isRegNumberValid && isTypeValid && isColourValid;
+        return !TextUtils.isEmpty(name) && !TextUtils.isEmpty(registrationNumber)
+                && !TextUtils.isEmpty(type) && !TextUtils.isEmpty(colour);
     }
 }

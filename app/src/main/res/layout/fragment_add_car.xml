@@ -163,7 +163,7 @@
             android:id="@+id/container_progress_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#99999999"
+            android:background="@color/dark_grey"
             android:clickable="true"
             android:focusable="false"
             android:gravity="center"
@@ -180,7 +180,7 @@
                 android:id="@+id/progress_bar_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#222222"
+                android:textColor="@color/stone_black"
                 android:gravity="center"
                 android:textSize="20sp" />
         </LinearLayout>
