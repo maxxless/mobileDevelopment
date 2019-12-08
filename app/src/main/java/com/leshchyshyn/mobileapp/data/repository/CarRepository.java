@@ -13,18 +13,6 @@ public class CarRepository implements IRepository {
         this.carList = list;
     }
 
-    public Car getById(final int id) {
-        Car carToBeFound = null;
-
-        for (Car car : carList) {
-            if (car.getId() == id) {
-                carToBeFound = car;
-            }
-        }
-
-        return carToBeFound;
-    }
-
     public List<Car> getByName(final String name) {
         List<Car> cars = new ArrayList<>();
 

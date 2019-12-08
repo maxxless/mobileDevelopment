@@ -2,11 +2,7 @@ package com.leshchyshyn.mobileapp.main_group.cars;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.leshchyshyn.mobileapp.api.ApiService;
 import com.leshchyshyn.mobileapp.api.RetrofitClient;
@@ -21,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -69,29 +64,6 @@ public class CarsPresenter implements ICarsPresenter {
             adapter = new CarAdapter(carRepository.getByName(name));
             carsView.setAdapter(adapter);
         }
-    }
-
-    public Single<JsonObject> revealCourtPlace(String courtID, @Nullable CarCallback callbacks) {
-        return RetrofitClient.getRetroClient()
-                .getCarById(courtID);
-    }
-
-    public Car loadSpecificCar(final String id) {
-        final Car[] car = new Car[1];
-        revealCourtPlace(id, new CarCallback() {
-            @Override
-            public void onSuccess(@NonNull String value) {
-                Type type = new TypeToken<Car>() {
-                }.getType();
-                car[0] = JSONParser.getFromJSONToCar(value, type);
-            }
-
-            @Override
-            public void onError(@NonNull Throwable throwable) {
-                // here you access the throwable and check what to do
-            }
-        });
-        return car[0];
     }
 
     private void loadCars() {

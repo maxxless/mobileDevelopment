@@ -6,9 +6,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -19,9 +16,13 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.leshchyshyn.mobileapp.R;
 import com.leshchyshyn.mobileapp.main_group.MainActivity;
 
+import java.util.Objects;
+
 public class CustomFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "FCM Service";
+    private static final String CAR_ID = "carId";
+    private static final String MESSAGE = "message";
     private static int count = 0;
 
     @Override
@@ -30,12 +31,10 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
-        Log.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
-
+    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         try {
-            sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+            sendNotification(Objects.requireNonNull(remoteMessage.getNotification()).getTitle(),
+                    remoteMessage.getNotification().getBody());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,35 +44,29 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("pushnotification", "yes");
-        intent.putExtra("carId", messageBody);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        intent.putExtra(CAR_ID, title);
+        intent.putExtra(MESSAGE, messageBody);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
+                PendingIntent.FLAG_ONE_SHOT);
 
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationManager mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_LOW;
-            NotificationChannel mChannel = new NotificationChannel("Sesame", "Sesame", importance);
+            NotificationChannel mChannel = new NotificationChannel(CAR_ID, CAR_ID, importance);
             mChannel.setDescription(messageBody);
-            mChannel.enableLights(true);
-            mChannel.setLightColor(Color.RED);
-            mChannel.enableVibration(true);
-            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
 
             mNotifyManager.createNotificationChannel(mChannel);
         }
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "Seasame");
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CAR_ID);
         mBuilder.setContentTitle(title)
                 .setContentText(messageBody)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                 .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setColor(Color.parseColor("#FFD600"))
                 .setContentIntent(pendingIntent)
-                .setChannelId("Sesame")
+                .setChannelId(CAR_ID)
                 .setPriority(NotificationCompat.PRIORITY_LOW);
 
         mNotifyManager.notify(count, mBuilder.build());

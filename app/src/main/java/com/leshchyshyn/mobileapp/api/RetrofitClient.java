@@ -3,7 +3,6 @@ package com.leshchyshyn.mobileapp.api;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class RetrofitClient {
@@ -22,7 +21,6 @@ public final class RetrofitClient {
                     .baseUrl(ROOT_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(createDefaultOkHttpClient())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();
 
             service = retrofit.create(ApiService.class);

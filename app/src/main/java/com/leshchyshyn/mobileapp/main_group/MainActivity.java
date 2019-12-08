@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (getIntent().hasExtra("pushnotification")) {
+        if (getIntent().hasExtra("carId")) {
             replaceFragment(new CarsFragment());
         } else {
             initView();
