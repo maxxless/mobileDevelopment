@@ -2,7 +2,11 @@ package com.leshchyshyn.mobileapp.main_group.cars;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.leshchyshyn.mobileapp.api.ApiService;
 import com.leshchyshyn.mobileapp.api.RetrofitClient;
@@ -17,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,37 +49,7 @@ public class CarsPresenter implements ICarsPresenter {
         if (InternetConnection.checkConnection(context)) {
             carsView.showProgress();
 
-            ApiService api = RetrofitClient.getRetroClient();
-
-            Call<JsonArray> jsonArrayCall = api.getCars();
-
-            jsonArrayCall.enqueue(new Callback<JsonArray>() {
-                @Override
-                public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                    try {
-                        responseBody = Objects.requireNonNull(response.body()).toString();
-
-                        Type type = new TypeToken<List<Car>>() {
-                        }.getType();
-                        List<Car> arrayList = JSONParser.getFromJSONtoArrayList(responseBody, type);
-                        carRepository = new CarRepository(arrayList);
-
-                        setList();
-                        carsView.hideRefreshing();
-                        carsView.setEnabledSearch(true);
-                        carsView.hideProgress();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<JsonArray> call, Throwable t) {
-                    carsView.hideRefreshing();
-                    carsView.hideProgress();
-
-                }
-            });
+            loadCars();
         } else {
             carsView.showNotInternetConnection(context);
             carsView.hideRefreshing();
@@ -94,5 +69,61 @@ public class CarsPresenter implements ICarsPresenter {
             adapter = new CarAdapter(carRepository.getByName(name));
             carsView.setAdapter(adapter);
         }
+    }
+
+    public Single<JsonObject> revealCourtPlace(String courtID, @Nullable CarCallback callbacks) {
+        return RetrofitClient.getRetroClient()
+                .getCarById(courtID);
+    }
+
+    public Car loadSpecificCar(final String id) {
+        final Car[] car = new Car[1];
+        revealCourtPlace(id, new CarCallback() {
+            @Override
+            public void onSuccess(@NonNull String value) {
+                Type type = new TypeToken<Car>() {
+                }.getType();
+                car[0] = JSONParser.getFromJSONToCar(value, type);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable throwable) {
+                // here you access the throwable and check what to do
+            }
+        });
+        return car[0];
+    }
+
+    private void loadCars() {
+        final ApiService api = RetrofitClient.getRetroClient();
+
+        Call<JsonArray> jsonArrayCall = api.getCars();
+
+        jsonArrayCall.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                try {
+                    responseBody = Objects.requireNonNull(response.body()).toString();
+
+                    Type type = new TypeToken<List<Car>>() {
+                    }.getType();
+                    List<Car> arrayList = JSONParser.getFromJSONtoArrayList(responseBody, type);
+                    carRepository = new CarRepository(arrayList);
+
+                    setList();
+                    carsView.hideRefreshing();
+                    carsView.setEnabledSearch(true);
+                    carsView.hideProgress();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                carsView.hideRefreshing();
+                carsView.hideProgress();
+            }
+        });
     }
 }

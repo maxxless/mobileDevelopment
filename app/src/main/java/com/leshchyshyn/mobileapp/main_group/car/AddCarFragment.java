@@ -118,14 +118,14 @@ public class AddCarFragment extends Fragment {
         final String colour = colourEt.getText().toString();
         final String type = typeEt.getText().toString();
 
-        imageReference.getDownloadUrl().addOnSuccessListener(uri -> {
-            if (areFieldsValid(name, registrationNumber, type, colour)) {
+        if (areFieldsValid(name, registrationNumber, type, colour)) {
+            imageReference.getDownloadUrl().addOnSuccessListener(uri -> {
                 Car car = new Car(name, registrationNumber, colour, type, uri.toString());
                 sendData(car);
-            } else {
-                showFieldsError();
-            }
-        });
+            });
+        } else {
+            showFieldsError();
+        }
     }
 
     private void uploadPicture() {
@@ -202,19 +202,19 @@ public class AddCarFragment extends Fragment {
 
     private boolean areFieldsValid(final String name, final String registrationNumber,
                                    final String type, final String colour) {
-        if (!TextUtils.isEmpty(name)) {
+        if (TextUtils.isEmpty(name)) {
             nameEt.setError(context.getString(R.string.invalid_field));
         }
 
-        if (!TextUtils.isEmpty(registrationNumber)) {
+        if (TextUtils.isEmpty(registrationNumber)) {
             nameEt.setError(context.getString(R.string.invalid_field));
         }
 
-        if (!TextUtils.isEmpty(type)) {
+        if (TextUtils.isEmpty(type)) {
             nameEt.setError(context.getString(R.string.invalid_field));
         }
 
-        if (!TextUtils.isEmpty(colour)) {
+        if (TextUtils.isEmpty(colour)) {
             nameEt.setError(context.getString(R.string.invalid_field));
         }
         return !TextUtils.isEmpty(name) && !TextUtils.isEmpty(registrationNumber)

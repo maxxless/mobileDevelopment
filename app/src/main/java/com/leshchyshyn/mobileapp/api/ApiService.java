@@ -1,12 +1,15 @@
 package com.leshchyshyn.mobileapp.api;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.leshchyshyn.mobileapp.data.model.Car;
 
+import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ApiService {
 
@@ -18,6 +21,9 @@ public interface ApiService {
 
     @GET("/cars")
     Call<JsonArray> getCars();
+
+    @GET("/cars/{carId}")
+    Single<JsonObject> getCarById(@Path("carId") String carId);
 
     @POST("/cars")
     Call<Car> addCar(@Body Car car);

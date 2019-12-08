@@ -46,13 +46,23 @@ public class CarsFragment extends Fragment implements ICarsView, View.OnClickLis
         view = inflater.inflate(R.layout.fragment_cars, container, false);
         mContext = view.getContext();
 
-        initView();
-        initListener();
-        initPresenter();
+        if (getActivity().getIntent().hasExtra("carId")) {
+            String carId = getActivity().getIntent().getStringExtra("carId");
 
-        carsPresenter.loadData();
+            initView();
+            initPresenter();
 
-        swipeRefreshLayout.setOnRefreshListener(() -> carsPresenter.loadData());
+            Car car = carsPresenter.loadSpecificCar(carId);
+            showCar(car);
+        } else {
+            initView();
+            initListener();
+            initPresenter();
+
+            carsPresenter.loadData();
+
+            swipeRefreshLayout.setOnRefreshListener(() -> carsPresenter.loadData());
+        }
 
         return view;
     }
