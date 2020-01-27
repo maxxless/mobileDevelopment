@@ -2,7 +2,7 @@ package com.leshchyshyn.mobileapp.main_group;
 
 import android.content.Intent;
 import android.os.Bundle;
-
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -15,13 +15,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.leshchyshyn.mobileapp.R;
 import com.leshchyshyn.mobileapp.auth.Auth;
 import com.leshchyshyn.mobileapp.auth.AuthenticationActivity;
 import com.leshchyshyn.mobileapp.main_group.about.AboutFragment;
+import com.leshchyshyn.mobileapp.main_group.cars.CarsFragment;
 import com.leshchyshyn.mobileapp.main_group.fare.FareFragment;
 import com.leshchyshyn.mobileapp.main_group.images.ImagesFragment;
-import com.leshchyshyn.mobileapp.main_group.cars.CarsFragment;
 import com.leshchyshyn.mobileapp.main_group.locations.LocationsFragment;
 import com.leshchyshyn.mobileapp.main_group.profile.ProfileFragment;
 import com.leshchyshyn.mobileapp.main_group.settings.SettingFragment;
@@ -45,20 +46,26 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initView();
-        initListeners();
+        if (getIntent().hasExtra("carId")) {
+            replaceFragment(new CarsFragment());
+        } else {
+            initView();
+            initListeners();
 
-        setSupportActionBar(mToolbar);
+            setSupportActionBar(mToolbar);
 
-        mActionBarDrawerToggle =
-                new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
-        mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
-        mActionBarDrawerToggle.syncState();
+            mActionBarDrawerToggle =
+                    new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
+            mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
+            mActionBarDrawerToggle.syncState();
 
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        replaceFragment(new ProfileFragment());
-        getSupportActionBar().setTitle(R.string.profile);
+            replaceFragment(new ProfileFragment());
+            getSupportActionBar().setTitle(R.string.profile);
+
+            logFirebaseToken();
+        }
     }
 
     public void replaceFragment(Fragment fragment) {
@@ -150,5 +157,21 @@ public class MainActivity extends AppCompatActivity
 
     private void initListeners() {
         mNavigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void logFirebaseToken() {
+        final String TAG = "FCM Token";
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "getInstanceId failed", task.getException());
+                        return;
+                    }
+
+                    String token = Objects.requireNonNull(task.getResult()).getToken();
+
+                    Log.d(TAG, token);
+                });
     }
 }

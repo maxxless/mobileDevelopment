@@ -19,12 +19,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.leshchyshyn.mobileapp.R;
+import com.leshchyshyn.mobileapp.api.ApiService;
+import com.leshchyshyn.mobileapp.api.RetrofitClient;
 import com.leshchyshyn.mobileapp.data.model.Car;
 import com.leshchyshyn.mobileapp.main_group.car.AddCarFragment;
 import com.leshchyshyn.mobileapp.main_group.car.CarWithDetailsFragment;
+import com.leshchyshyn.mobileapp.utils.JSONParser;
 
+import java.lang.reflect.Type;
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CarsFragment extends Fragment implements ICarsView, View.OnClickListener {
 
@@ -47,12 +57,21 @@ public class CarsFragment extends Fragment implements ICarsView, View.OnClickLis
         mContext = view.getContext();
 
         initView();
-        initListener();
         initPresenter();
 
-        carsPresenter.loadData();
+        if (Objects.requireNonNull(getActivity()).getIntent().hasExtra("carId")) {
+            String carId = getActivity().getIntent().getStringExtra("carId");
+            String message = getActivity().getIntent().getStringExtra("message");
 
-        swipeRefreshLayout.setOnRefreshListener(() -> carsPresenter.loadData());
+            loadOneCar(carId);
+            showMessage(message);
+        } else {
+            initListener();
+
+            carsPresenter.loadData();
+
+            swipeRefreshLayout.setOnRefreshListener(() -> carsPresenter.loadData());
+        }
 
         return view;
     }
@@ -156,5 +175,43 @@ public class CarsFragment extends Fragment implements ICarsView, View.OnClickLis
                 .addToBackStack(null)
                 .commit();
         carWithDetailsFragment.setCar(car);
+    }
+
+    private void loadOneCar(final String id) {
+        final ApiService api = RetrofitClient.getRetroClient();
+
+        Call<JsonObject> jsonArrayCall = api.getCarById(id);
+
+        jsonArrayCall.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                try {
+                    String responseBody = Objects.requireNonNull(response.body()).toString();
+
+                    Type type = new TypeToken<Car>() {
+                    }.getType();
+                    Car car = JSONParser.getFromJSONToCar(responseBody, type);
+                    showCar(car);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void showMessage(final String message) {
+        final TextView editText = new TextView(mContext);
+        AlertDialog dialog = new AlertDialog.Builder(mContext)
+                .setTitle("Received message")
+                .setMessage(message)
+                .setView(editText)
+                .setNegativeButton(R.string.close, null)
+                .create();
+        dialog.show();
     }
 }
