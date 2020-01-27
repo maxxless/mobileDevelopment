@@ -44,37 +44,7 @@ public class CarsPresenter implements ICarsPresenter {
         if (InternetConnection.checkConnection(context)) {
             carsView.showProgress();
 
-            ApiService api = RetrofitClient.getRetroClient();
-
-            Call<JsonArray> jsonArrayCall = api.getCars();
-
-            jsonArrayCall.enqueue(new Callback<JsonArray>() {
-                @Override
-                public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                    try {
-                        responseBody = Objects.requireNonNull(response.body()).toString();
-
-                        Type type = new TypeToken<List<Car>>() {
-                        }.getType();
-                        List<Car> arrayList = JSONParser.getFromJSONtoArrayList(responseBody, type);
-                        carRepository = new CarRepository(arrayList);
-
-                        setList();
-                        carsView.hideRefreshing();
-                        carsView.setEnabledSearch(true);
-                        carsView.hideProgress();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<JsonArray> call, Throwable t) {
-                    carsView.hideRefreshing();
-                    carsView.hideProgress();
-
-                }
-            });
+            loadCars();
         } else {
             carsView.showNotInternetConnection(context);
             carsView.hideRefreshing();
@@ -94,5 +64,38 @@ public class CarsPresenter implements ICarsPresenter {
             adapter = new CarAdapter(carRepository.getByName(name));
             carsView.setAdapter(adapter);
         }
+    }
+
+    private void loadCars() {
+        final ApiService api = RetrofitClient.getRetroClient();
+
+        Call<JsonArray> jsonArrayCall = api.getCars();
+
+        jsonArrayCall.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                try {
+                    responseBody = Objects.requireNonNull(response.body()).toString();
+
+                    Type type = new TypeToken<List<Car>>() {
+                    }.getType();
+                    List<Car> arrayList = JSONParser.getFromJSONtoArrayList(responseBody, type);
+                    carRepository = new CarRepository(arrayList);
+
+                    setList();
+                    carsView.hideRefreshing();
+                    carsView.setEnabledSearch(true);
+                    carsView.hideProgress();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                carsView.hideRefreshing();
+                carsView.hideProgress();
+            }
+        });
     }
 }
