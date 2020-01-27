@@ -3,7 +3,6 @@ package com.leshchyshyn.mobileapp.main_group.cars;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -21,6 +21,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.leshchyshyn.mobileapp.R;
 import com.leshchyshyn.mobileapp.data.model.Car;
+import com.leshchyshyn.mobileapp.main_group.car.AddCarFragment;
 import com.leshchyshyn.mobileapp.main_group.car.CarWithDetailsFragment;
 
 import java.util.Objects;
@@ -32,6 +33,7 @@ public class CarsFragment extends Fragment implements ICarsView, View.OnClickLis
 
     private RecyclerView recyclerView;
     private FloatingActionButton searchFab;
+    private FloatingActionButton addFab;
 
     private CarsPresenter carsPresenter;
 
@@ -62,11 +64,13 @@ public class CarsFragment extends Fragment implements ICarsView, View.OnClickLis
         recyclerView.setLayoutManager(layoutManager);
 
         searchFab = view.findViewById(R.id.car_search_fab);
+        addFab = view.findViewById(R.id.car_add_fab);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshCars);
     }
 
     private void initListener() {
         searchFab.setOnClickListener(this);
+        addFab.setOnClickListener(this);
     }
 
     private void initPresenter() {
@@ -87,6 +91,14 @@ public class CarsFragment extends Fragment implements ICarsView, View.OnClickLis
                     .setNegativeButton(R.string.close, null)
                     .create();
             dialog.show();
+        }
+
+        if (view.getId() == R.id.car_add_fab) {
+            AddCarFragment addCarFragment = new AddCarFragment();
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_main_container, addCarFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
     }
 

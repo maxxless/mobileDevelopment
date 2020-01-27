@@ -112,6 +112,16 @@
     <string name="load_data">Loading data</string>
     <string name="saved">Saved!</string>
     <string name="error">Error occurred</string>
+    <string name="invalid_field">Invalid field</string>
+
+    // Add
+    <string name="add_label">Add</string>
+    <string name="add_car">Add car</string>
+    <string name="add_car_message">Enter the details of the car</string>
+    <string name="registration_number">Registration Number</string>
+    <string name="type">Type</string>
+    <string name="colour">Colour</string>
+    <string name="name">Name</string>
 
     <string name="open">Open</string>
     <string name="close">Close</string>
